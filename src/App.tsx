@@ -1,25 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider } from "styled-components";
+import "./App.css";
+import Router from "./shared/Router";
+import GlobalStyles from "./style/GlobalStyle";
+import { theme } from "./style/theme/index";
+import { useEffect } from "react";
+import { userInfo } from "./redux/modules/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { authUser } from "./api/authUser";
+import { AppDispatch, RootState } from "./redux/config/ConfigStore";
+import Toastify from "./components/common/Toastify";
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { userState } = useSelector((state: RootState) => state.user);
+
+  const getUser = async () => {
+    try {
+      if (userState._id) {
+        return null;
+      }
+
+      const storedToken = sessionStorage.getItem("token");
+      if (storedToken) {
+        return dispatch(authUser());
+      }
+
+      throw new Error();
+    } catch (error) {
+      dispatch(userInfo({ name: null, email: null, _id: null, level: null }));
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ThemeProvider theme={theme}>
+        <Toastify />
+        <Router />
+        <GlobalStyles />
+      </ThemeProvider>
+    </>
   );
 }
 
