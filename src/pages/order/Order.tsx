@@ -1,6 +1,4 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import styled from "styled-components";
-import { colors } from "../../style/theme/colors";
 import Text from "../../components/common/Text";
 import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
@@ -16,6 +14,8 @@ import {
 } from "../../models/order.types";
 import { createToastify } from "../../redux/modules/toastifySlice";
 import { useNavigate } from "react-router-dom";
+import * as S from "./Order.styled";
+import { createOrder } from "../../api/createOrder";
 
 const Order = () => {
   const navigate = useNavigate();
@@ -75,22 +75,23 @@ const Order = () => {
         if (value.length > 12) {
           value = shipInfo.contact;
         } else {
-          value = value.replace(/^(\d{3})(\d{4})(\d{4})$/, `$1-$2-$3`);
+          value = value
+            .replace(/\D/g, "")
+            .replace(/^(\d{3})(\d{4})(\d{4})$/, `$1-$2-$3`);
         }
-
         break;
 
       default:
     }
 
-    setShipInfoError({
-      ...shipInfoError,
-      [id]: false,
-    });
-
     setShipInfo({
       ...shipInfo,
       [id]: value,
+    });
+
+    setShipInfoError({
+      ...shipInfoError,
+      [id]: false,
     });
   };
 
@@ -187,27 +188,42 @@ const Order = () => {
         name: name ? false : true,
         number: number ? false : true,
       });
+
       return dispatch(
         createToastify({ status: "error", message: "내용을 입력해주세요" })
       );
     }
 
-    const ssss = Number(contact.replace(/-/g, ""));
+    if (
+      String(number).length !== 16 ||
+      String(expiry).length !== 4 ||
+      String(cvc).length !== 3
+    ) {
+      return setCardValueError({
+        ...cardValueError,
+        number: String(number).length !== 16,
+        expiry: String(expiry).length !== 5,
+        cvc: String(cvc).length !== 3,
+      });
+    }
 
-    const data = {
+    const deleteHyphen = Number(contact.replace(/-/g, ""));
+
+    const totalData = {
       totalPrice: getTotalPrice(),
       shipTo: { address, city, zip },
-      contact: { firstName, lastName, contact: ssss },
+      contact: { firstName, lastName, contact: deleteHyphen },
       orderList: cartList?.map((item) => {
         return {
           productId: item.productId._id,
-          qty: item.qty,
           size: item.size,
+          qty: item.qty,
+          price: item.productId.price,
         };
       }),
     };
 
-    console.log(data, "data");
+    dispatch(createOrder({ totalData, navigate }));
   };
 
   const getTotalPrice = () => {
@@ -220,10 +236,10 @@ const Order = () => {
   };
 
   return (
-    <Container>
-      <OrderInputs>
-        <Title>배송 주소</Title>
-        <NameFirstName>
+    <S.Container>
+      <S.OrderInputs>
+        <S.Title>배송 주소</S.Title>
+        <S.NameFirstName>
           <div>
             <Text size="15">FirstName</Text>
             <Input
@@ -244,8 +260,8 @@ const Order = () => {
               isError={shipInfoError.lastName}
             />
           </div>
-        </NameFirstName>
-        <Contact>
+        </S.NameFirstName>
+        <S.Contact>
           <Text size="15">contact</Text>
 
           <Input
@@ -255,8 +271,8 @@ const Order = () => {
             onChange={handleInputOrder}
             isError={shipInfoError.contact}
           />
-        </Contact>
-        <Address>
+        </S.Contact>
+        <S.Address>
           <Text size="15">address</Text>
 
           <Input
@@ -266,9 +282,9 @@ const Order = () => {
             onChange={handleInputOrder}
             isError={shipInfoError.address}
           />
-        </Address>
+        </S.Address>
 
-        <CityZip>
+        <S.CityZip>
           <div>
             <Text size="15">city</Text>
 
@@ -291,8 +307,8 @@ const Order = () => {
               isError={shipInfoError.zip}
             />
           </div>
-        </CityZip>
-        <CardForm>
+        </S.CityZip>
+        <S.CardForm>
           <div>
             <Cards
               cvc={cardValue.cvc}
@@ -303,7 +319,7 @@ const Order = () => {
             />
           </div>
           <div>
-            <CardNum>
+            <S.CardNum>
               <Text size="15">card number</Text>
 
               <Input
@@ -313,8 +329,8 @@ const Order = () => {
                 onChange={handleCardInput}
                 isError={cardValueError.number}
               />
-            </CardNum>
-            <CardName>
+            </S.CardNum>
+            <S.CardName>
               <Text size="15">name</Text>
 
               <Input
@@ -324,8 +340,8 @@ const Order = () => {
                 onChange={handleCardInput}
                 isError={cardValueError.name}
               />
-            </CardName>
-            <MmddCvc>
+            </S.CardName>
+            <S.MmddCvc>
               <div>
                 <Text size="15">expiry</Text>
 
@@ -348,143 +364,20 @@ const Order = () => {
                   isError={cardValueError.cvc}
                 />
               </div>
-            </MmddCvc>
+            </S.MmddCvc>
           </div>
-        </CardForm>
-      </OrderInputs>
-      <PayMents>
-        <List>
+        </S.CardForm>
+      </S.OrderInputs>
+      <S.PayMents>
+        <S.SpaceFlex>
           <Text>total ... ({String(cartLength)})</Text>
           <Text size={"13"}>₩ {getTotalPrice().toLocaleString()}</Text>
-        </List>
+        </S.SpaceFlex>
 
-        <OrderBtn onClick={handleOrder}>order</OrderBtn>
-      </PayMents>
-    </Container>
+        <S.OrderBtn onClick={handleOrder}>order</S.OrderBtn>
+      </S.PayMents>
+    </S.Container>
   );
 };
 
 export default Order;
-
-export const Container = styled.div`
-  max-width: 1200px;
-  height: calc(100vh - 35px - 60px);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 70% 30%;
-
-  @media only screen and (max-width: 700px) {
-    display: block;
-  }
-`;
-
-export const OrderInputs = styled.div`
-  overflow-y: scroll;
-  padding: 20px;
-  @media only screen and (max-width: 700px) {
-    min-height: calc(100vh - 96px);
-    max-height: calc(100vh - 96px);
-  }
-`;
-
-export const Title = styled.div`
-  margin: 30px 0;
-  text-align: center;
-  font-size: 25px;
-  font-weight: 700;
-`;
-
-export const PayMents = styled.div`
-  height: 100vh;
-  padding: 20px;
-  padding-top: 100px;
-  background-color: ${colors.antiquewhite};
-
-  @media only screen and (max-width: 700px) {
-    height: auto;
-    padding-top: 0;
-    padding: 10px;
-  }
-`;
-
-export const List = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-`;
-
-export const OrderBtn = styled.button`
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px;
-  border-radius: 5px;
-  background-color: ${colors.black};
-  color: ${colors.white};
-
-  &:disabled {
-    background-color: ${colors.gray_100};
-  }
-
-  @media only screen and (max-width: 700px) {
-    margin-top: 10px;
-  }
-`;
-
-/////
-
-export const NameFirstName = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-`;
-
-export const Contact = styled.div`
-  /* max-width: 50%; */
-
-  margin-bottom: 20px;
-`;
-
-export const Address = styled.div`
-  /* max-width: 50%; */
-
-  margin-bottom: 20px;
-`;
-
-export const CityZip = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 30px;
-`;
-
-export const CardForm = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 10px;
-
-  & > div {
-    /* border: 1px solid black; */
-  }
-
-  @media only screen and (max-width: 500px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-`;
-
-//
-export const MmddCvc = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 10px;
-`;
-
-export const CardNum = styled.div`
-  margin-bottom: 10px;
-`;
-
-export const CardName = styled.div`
-  margin-bottom: 10px;
-`;

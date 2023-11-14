@@ -6,13 +6,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getProductHome } from "../../api/getProductHome";
 import { deleteProductListMain } from "../../redux/modules/productSlice";
 import Text from "../../components/common/Text";
+import { Product } from "../../models/product.type";
+import { banner } from "../../utility/imgConst";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { productsList, totalPageNum, isLoading } = useSelector(
-    (state: RootState) => state.product
-  );
+  const { isLoading } = useSelector((state: RootState) => state.product);
 
   const [query, setQuery] = useSearchParams();
   const [keyWord, setKeyWord] = useState("");
@@ -23,49 +23,69 @@ const Home = () => {
     name: query.get("name") || "",
   });
 
+  const [productsList, setProductsList] = useState<Product[] | []>([]);
+  const [totalPageNum, setTotalPageNum] = useState<number | null>(null);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const [hasNextPage, setHasNextPage] = useState(true);
+
   const onCheckEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      if (e.currentTarget.value === "") {
-        return window.location.replace("/?type=main&page=1");
+      if (e.currentTarget.value === "" && !searchQuery?.name) {
+        return;
       }
 
-      if (e.currentTarget.value !== searchQuery.name) {
-        dispatch(deleteProductListMain());
-        setPage(1);
-        setSearchQuery({
-          ...searchQuery,
-          name: e.currentTarget.value,
-        });
+      if (e.currentTarget.value === searchQuery?.name) {
+        return;
       }
+      return setSearchQuery({
+        ...searchQuery,
+        name: e.currentTarget.value,
+      });
     }
   };
+
+  console.log(productsList, "productsList");
 
   useEffect(() => {
     if (searchQuery?.name === "") {
       delete searchQuery.name;
     }
 
+    setProductsList([]);
+    setTotalPageNum(null);
+    setPage(1);
+    observer.current = null;
+    setHasNextPage(true);
+
     const params = new URLSearchParams(searchQuery).toString();
     navigate(`?${params}`);
   }, [searchQuery]);
 
   useEffect(() => {
-    dispatch(deleteProductListMain());
-    dispatch(getProductHome({ ...searchQuery, page: page.toString() }));
-    setPage(page + 1);
+    dispatch(
+      getProductHome({
+        ...searchQuery,
+        page: "1",
+        setProductsList,
+        setTotalPageNum,
+      })
+    );
+    setPage((pre) => pre + 1);
   }, [query]);
-
-  console.log(productsList);
-
-  //
-  const observer = useRef<IntersectionObserver | null>(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
 
   const fetchNextPage = () => {
     if (totalPageNum === page - 1) {
       return setHasNextPage(false);
     }
-    dispatch(getProductHome({ ...searchQuery, page: page.toString() }));
+    dispatch(
+      getProductHome({
+        ...searchQuery,
+        page: page.toString(),
+        setProductsList,
+        setTotalPageNum,
+      })
+    );
     setPage(page + 1);
   };
 
@@ -76,14 +96,14 @@ const Home = () => {
 
       observer.current = new IntersectionObserver((entries, _) => {
         if (entries[0].isIntersecting) {
-          if (isLoading) return null;
+          if (isLoading && totalPageNum === null) return null;
           hasNextPage && fetchNextPage();
         }
       });
 
       if (node) observer.current.observe(node);
     },
-    [isLoading]
+    [isLoading, totalPageNum]
   );
 
   const handelDetail = (id: string) => {
@@ -94,10 +114,7 @@ const Home = () => {
   return (
     <>
       <S.Banner>
-        <img
-          src="https://user-images.githubusercontent.com/129598273/278545611-d21e4e33-d4c5-40c7-bbf4-c1be64bdfc7b.png"
-          loading="lazy"
-        />
+        <img src={banner} loading="lazy" />
       </S.Banner>
       <S.SearchDiv>
         <div>

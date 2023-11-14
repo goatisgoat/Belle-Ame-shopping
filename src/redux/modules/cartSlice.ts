@@ -1,12 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { resister } from "../../api/resister";
-import { Product } from "../../models/product.type";
+import { register } from "../../api/register";
+import { Cart } from "../../models/cart.types";
 
 type InitialState = {
   cartLength: number;
-  cartList:
-    | { productId: Product; qty: number; size: string; _id: string }[]
-    | null;
+  cartList: Cart[] | null;
 };
 
 const initialState: InitialState = {
@@ -15,10 +13,10 @@ const initialState: InitialState = {
 };
 
 const cartSlice = createSlice({
-  name: "resister",
+  name: "register",
   initialState,
   reducers: {
-    getCartLength: (state, action: PayloadAction<number>) => {
+    getCartLengthFc: (state, action: PayloadAction<number>) => {
       state.cartLength = action.payload;
     },
     plusCartLength: (state) => {
@@ -27,15 +25,10 @@ const cartSlice = createSlice({
     minusCartLength: (state) => {
       state.cartLength = state.cartLength - 1;
     },
-    getCartList: (
+    getMyCartFc: (
       state,
       action: PayloadAction<{
-        cartList: {
-          productId: Product;
-          qty: number;
-          size: string;
-          _id: string;
-        }[];
+        cartList: Cart[];
         cartLength: number;
       }>
     ) => {
@@ -44,10 +37,10 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(resister.rejected, (state, action) => {});
+    builder.addCase(register.rejected, (state, action) => {});
   },
 });
 
 export default cartSlice.reducer;
-export const { getCartLength, plusCartLength, minusCartLength, getCartList } =
+export const { getCartLengthFc, plusCartLength, minusCartLength, getMyCartFc } =
   cartSlice.actions;

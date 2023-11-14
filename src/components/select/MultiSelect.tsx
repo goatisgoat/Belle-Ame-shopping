@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { colors } from "../../style/theme/colors";
-import Modal from "../modal/Modal";
+import ModalSelect from "../modal/ModalSelect";
 
 type props = {
   list: string[];
@@ -32,14 +32,14 @@ const MultiSelect = ({
           ? selectedList[0] + ` ... (${selectedList.length})`
           : "--"}
       </div>
-      <Modal
+      <ModalSelect
         isOpen={isSelectOpen}
         top={top}
         left={left}
         width={width}
         setSelectOpen={setSelectOpen}
       >
-        <SelectUl $isSlelctopen={isSelectOpen}>
+        <SelectUl>
           {list.map((i) => (
             <SelectLi
               id={i}
@@ -51,7 +51,7 @@ const MultiSelect = ({
             </SelectLi>
           ))}
         </SelectUl>
-      </Modal>
+      </ModalSelect>
     </SelectTitle>
   );
 };
@@ -61,61 +61,44 @@ export default MultiSelect;
 export const SelectTitle = styled.div`
   width: 100%;
   height: 35px;
-  border: 1px solid ${colors.inputBorder};
-  border-radius: 3px;
-  line-height: 35px;
   padding: 0 10px;
-  color: ${colors.black_200};
-  cursor: pointer;
-
-  & > div {
-    color: ${colors.black_200};
-  }
-`;
-
-export const SelectUl = styled.ul<{
-  $isSlelctopen: boolean;
-}>`
-  max-height: 100px;
-  display: ${(props) => (props.$isSlelctopen === true ? "block" : "none")};
-  margin-top: 10px;
   border: 1px solid ${colors.inputBorder};
   border-radius: 3px;
-  padding: 5px;
-  background-color: ${colors.white};
   color: ${colors.black_200};
-  overflow: scroll;
-
-  & > li {
-    text-decoration: none;
-    padding: 5px 0;
-    padding-left: 5px;
-    cursor: pointer;
-  }
-  & > li:hover {
-    background-color: antiquewhite;
-    border-radius: 3px;
-  }
+  line-height: 35px;
+  cursor: pointer;
 `;
 
-export const SelectLi = styled.ul<{ $isSelected: boolean }>`
-  text-decoration: none;
+export const SelectUl = styled.ul<{}>`
+  max-height: 100px;
+  margin-top: 10px;
+  padding: 5px;
+  border: 1px solid ${colors.inputBorder};
+  border-radius: 3px;
+  color: ${colors.black_200};
+  background-color: ${colors.white};
+  overflow: scroll;
+`;
+
+export const SelectLi = styled.li<{ $isSelected: boolean }>`
   padding: 5px 0;
   padding-left: 5px;
   border-radius: 3px;
-
-  cursor: ${(props) =>
-    props.$isSelected === true ? "not-allowed" : "pointer"};
+  //
+  color: ${(props) =>
+    props.$isSelected === true ? `${colors.white}` : `${colors.black_200}`};
 
   background-color: ${(props) =>
     props.$isSelected === true ? `${colors.modalOuter}` : "none"};
 
-  color: ${(props) =>
-    props.$isSelected === true ? `${colors.white}` : `${colors.black_200}`};
-
+  cursor: ${(props) =>
+    props.$isSelected === true ? "not-allowed" : "pointer"};
+  //
   &:hover {
     background-color: ${(props) =>
-      props.$isSelected === true ? `${colors.modalOuter}` : "antiquewhite"};
+      props.$isSelected === true
+        ? `${colors.modalOuter}`
+        : `${colors.antiquewhite}`};
 
     border-radius: 3px;
   }

@@ -1,30 +1,24 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../style/theme/colors";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StockSelect from "../select/StockSelect";
 import { Stoke } from "../../models/product.type";
-
-const StockList = ["XS", "S", "M", "L", "XL"];
+import Input from "../common/Input";
+import { StockList } from "../../utility/utils";
 
 type Props = {
   indexNum: number;
   stock: Stoke;
   stokes: Stoke[];
   setStokes: React.Dispatch<React.SetStateAction<Stoke[]>>;
-  setStockError: React.Dispatch<React.SetStateAction<boolean>>;
+  updateError: (field: string, value: boolean) => void;
 };
 
-const Stock = ({
-  indexNum,
-  stock,
-  stokes,
-  setStokes,
-  setStockError,
-}: Props) => {
+const Stock = ({ indexNum, stock, stokes, setStokes, updateError }: Props) => {
   const [isStockOpen, setIsStockOpen] = useState(false);
-  const qty = stock.quantity === null ? undefined : stock.quantity;
+  const qty = stock.quantity === null ? 0 : stock.quantity;
 
   const handleStock = (e: React.MouseEvent<HTMLElement>) => {
     const size = e.currentTarget.id;
@@ -38,13 +32,12 @@ const Stock = ({
         i === indexNum ? { ...s, size: size } : s
       );
 
-      if (
-        updateSize.every(
-          (s) =>
-            s["size"] !== null && s["quantity"] !== null && s["quantity"] > 0
-        )
-      ) {
-        setStockError(false);
+      const checkAllProperties = updateSize.every(
+        (s) => s["size"] !== null && s["quantity"] !== null && s["quantity"] > 0
+      );
+
+      if (checkAllProperties) {
+        updateError("stock", false);
       }
 
       return updateSize;
@@ -54,23 +47,24 @@ const Stock = ({
   };
 
   const handleQty = (e: ChangeEvent<HTMLInputElement>) => {
-    const quantity = Number(e.target.value);
+    const quantity = Number(e.target.value.replaceAll(",", ""));
     setStokes((pre) =>
       pre.map((s, i) => (i === indexNum ? { ...s, quantity: quantity } : s))
     );
 
-    if (
-      stokes.every(
-        (s) => s["size"] !== null && s["quantity"] !== null && s["quantity"] > 0
-      )
-    ) {
-      setStockError(false);
+    const checkAllProperties = stokes.every(
+      (s) => s["size"] !== null && s["quantity"] !== null && s["quantity"] > 0
+    );
+
+    if (checkAllProperties) {
+      updateError("stock", false);
     }
   };
 
   const deleteStock = () => {
     setStokes((pre) => pre.filter((s, i) => i !== indexNum));
   };
+
   return (
     <StockContainer>
       <div>
@@ -83,14 +77,20 @@ const Stock = ({
           stokes={stokes}
         />
       </div>
-      <InputDiv>
-        <input
-          type="number"
-          placeholder="Number of Stock"
-          defaultValue={qty}
-          onChange={handleQty}
-        />
-      </InputDiv>
+      <Input
+        id="price"
+        type="text"
+        value={
+          qty
+            .toString()
+            .replace(/\D/g, "")
+            .replace(/^0+/, "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ""
+        }
+        onChange={handleQty}
+        placeholder="Number of Stock"
+      />
+
       <DelectStock onClick={deleteStock}>
         <IconButton aria-label="delete" disabled color="primary">
           <DeleteIcon />
@@ -101,6 +101,7 @@ const Stock = ({
 };
 
 export default Stock;
+
 export const StockContainer = styled.div`
   display: grid;
   grid-template-columns: 20% 70% 5%;

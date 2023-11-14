@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { colors } from "../../style/theme/colors";
+import { zIndex } from "../../utility/zIndex";
 
 export const Container = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ export const Sidebar = styled.div`
   flex-direction: column;
   justify-content: space-between;
   background-color: ${colors.white};
-  z-index: 99999999999999999999999999;
+  z-index: ${zIndex.adminManu};
   @media only screen and (max-width: 1000px) {
     width: 100px;
   }
