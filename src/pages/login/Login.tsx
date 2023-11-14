@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { login } from "../../api/login";
+import { loginWithEmail } from "../../api/loginWithEmail";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/config/ConfigStore";
 import { useNavigate, Link } from "react-router-dom";
 import * as S from "./Login.styled";
+import { GoogleLogin } from "@react-oauth/google";
+import { loginWithGoogle } from "../../api/loginWIthGoogle";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +22,7 @@ const Login = () => {
     e.preventDefault();
 
     dispatch(
-      login({
+      loginWithEmail({
         email,
         password,
         navigate,
@@ -33,6 +35,10 @@ const Login = () => {
       navigate("/");
     }
   }, [userState]);
+
+  const handleGoogleLogin = async (googleData: any) => {
+    dispatch(loginWithGoogle({ credential: googleData.credential, navigate }));
+  };
 
   return (
     <S.LoginContainer>
@@ -62,9 +68,16 @@ const Login = () => {
       </S.Form>
       <S.HaveAccount>
         Don't you have an account?
-        <S.SignColor to="/resister">Sign up</S.SignColor>
+        <S.SignColor to="/register">Sign up</S.SignColor>
       </S.HaveAccount>
-      <div>asdads</div>
+      <div>
+        <GoogleLogin
+          onSuccess={handleGoogleLogin}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
+      </div>
     </S.LoginContainer>
   );
 };

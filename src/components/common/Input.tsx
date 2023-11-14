@@ -49,5 +49,8 @@ export const InputDiv = styled.div<{ $isError: boolean }>`
     outline: none;
     border: none;
     background-color: transparent;
+    &::placeholder {
+      color: ${colors.black_200};
+    }
   }
 `;

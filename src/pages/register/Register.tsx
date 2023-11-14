@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { resister } from "../../api/resister";
+import { register } from "../../api/register";
 import { AppDispatch } from "../../redux/config/ConfigStore";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
@@ -8,10 +8,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { createToastify } from "../../redux/modules/toastifySlice";
-import * as S from "./Resister.styled";
-import Input from "../../components/common/Input";
+import * as S from "./Register.styled";
 
-const Resister = () => {
+const Register = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   const [name, setName] = useState("");
@@ -46,7 +45,7 @@ const Resister = () => {
     }
 
     dispatch(
-      resister({
+      register({
         email,
         name,
         password,
@@ -111,8 +110,7 @@ const Resister = () => {
         </S.CheckWrap>
         <S.SignBtn type="submit">가입하기</S.SignBtn>
       </S.Form>
-      <S.SSS>asdads</S.SSS>
     </S.SignContainer>
   );
 };
-export default Resister;
+export default Register;

@@ -1,25 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { createToastify } from "../redux/modules/toastifySlice";
-import { getCartList } from "../redux/modules/cartSlice";
+import { getMyOrderFc } from "../redux/modules/orderSlice";
 
-export const getCartItem = createAsyncThunk(
-  "cart",
+export const getMyOrder = createAsyncThunk(
+  "order",
   async (cartData: {}, { rejectWithValue, dispatch }) => {
     try {
-      const response = await api.get("/cart");
+      const response = await api.get("/order");
 
+      console.log(response.data.order, "response");
       if (response.status !== 200) {
         const errorMessage = response as any;
         throw errorMessage.error;
       }
 
-      dispatch(
-        getCartList({
-          cartList: response.data.cart.items,
-          cartLength: response.data.cart.items.length,
-        })
-      );
+      dispatch(getMyOrderFc(response.data.order));
     } catch (error) {
       const err = error as string;
       dispatch(

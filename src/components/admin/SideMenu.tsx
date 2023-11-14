@@ -1,19 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
-/////
-const pcLogo =
-  "https://user-images.githubusercontent.com/129598273/278886376-792e8c99-b971-432a-88fb-51b9ef5459ef.png";
-const mobileLoho =
-  "https://user-images.githubusercontent.com/129598273/278886455-f986a687-5402-4df2-80ff-bf1ea90beeaf.png";
-
-const adminImg =
-  "https://icons.veryicon.com/png/o/miscellaneous/yuanql/icon-admin.png";
-const productImg = "https://cdn-icons-png.flaticon.com/128/5349/5349769.png";
-
-const orderImg =
-  "https://icons.veryicon.com/png/o/system/linear-chh/order-27.png";
-////
+import {
+  mobileLogo,
+  orderImg,
+  pcLogo,
+  productImg,
+} from "../../utility/imgConst";
 
 const SideMenu = () => {
   return (
@@ -22,24 +14,18 @@ const SideMenu = () => {
         <PcLogo src={pcLogo} alt="pcLogo" />
       </Link>
       <Link to={"/"}>
-        <MobileLogo src={mobileLoho} alt="mobileLogo" />
+        <MobileLogo src={mobileLogo} alt="mobileLogo" />
       </Link>
 
       <Ul>
         <li>
-          <Link to={"/"}>
-            <img src={adminImg} />
-            <span>Admin</span>
-          </Link>
-        </li>
-        <li>
-          <Link to={"/"}>
+          <Link to={"/admin/product?page=1"}>
             <img src={productImg} />
             <span>Product</span>
           </Link>
         </li>
         <li>
-          <Link to={"/"}>
+          <Link to={"/admin/order?page=1"}>
             <img src={orderImg} />
             <span>Order</span>
           </Link>
@@ -53,7 +39,7 @@ export default SideMenu;
 
 export const PcLogo = styled.img`
   width: 200px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   display: block;
   @media only screen and (max-width: 1000px) {
     display: none;
@@ -65,7 +51,7 @@ export const MobileLogo = styled.img`
 
   @media all and (min-width: 700px) and (max-width: 1000px) {
     width: 70px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     display: block;
   }
 `;
@@ -89,8 +75,13 @@ export const Ul = styled.ul`
     font-weight: 600;
     display: flex;
     align-items: center;
-    align-content: center;
     cursor: pointer;
+
+    & > a {
+      display: flex;
+      align-items: center;
+    }
+
     & > a > img {
       width: 25px;
       margin-right: 10px;
@@ -116,14 +107,4 @@ export const Ul = styled.ul`
       margin: 0;
     }
   }
-
-  /* @media only screen and (max-width: 700px) {
-    margin-top: 30px;
-
-    & > li {
-      display: flex;
-      flex-direction: row;
-      margin-bottom: 40px;
-    }
-  } */
 `;

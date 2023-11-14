@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import styled from "styled-components";
+import Text from "../components/common/Text";
+import { colors } from "../style/theme/colors";
+import * as S from "../pages/admin/AdminProduct.styled";
+import Button from "../components/common/Button";
 
 type Props = {
   handleImg: (url: string) => void;
@@ -28,24 +31,24 @@ const UploadWidget = ({ handleImg, imgError }: Props) => {
   }, []);
   return (
     <>
-      <Flex>
-        <div>Img</div>
+      <S.Flex>
+        <Text color={colors.gray_300}>Img</Text>
         {imgError ? (
           <ErrorOutlineIcon fontSize="small" style={{ color: "#f86c6c" }} />
         ) : null}
-      </Flex>
-      <button onClick={() => widgetRef.current?.open()}>button</button>
+      </S.Flex>
+      <Button
+        Fontcolor={colors.basicWithBrown}
+        background={colors.basic}
+        borderRadius="3"
+        paddingTop="8"
+        paddingSide="10"
+        onClick={() => widgetRef.current?.open()}
+      >
+        Upload
+      </Button>
     </>
   );
 };
 
 export default UploadWidget;
-
-export const Flex = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-  & > div {
-    margin-right: 5px;
-  }
-`;

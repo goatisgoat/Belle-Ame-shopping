@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { createToastify } from "../redux/modules/toastifySlice";
 import { minusCartLength } from "../redux/modules/cartSlice";
-import { getCartItem } from "./getCartItem";
+import { getMyCart } from "./getMyCart";
 
 export const deleteCartItem = createAsyncThunk(
   "cart",
@@ -21,7 +21,7 @@ export const deleteCartItem = createAsyncThunk(
         throw errorMessage.error;
       }
       dispatch(minusCartLength());
-      dispatch(getCartItem({}));
+      dispatch(getMyCart({}));
     } catch (error) {
       const err = error as string;
       dispatch(

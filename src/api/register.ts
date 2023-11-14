@@ -3,10 +3,10 @@ import api from "../utility/api";
 import { useNavigate } from "react-router-dom";
 import { createToastify } from "../redux/modules/toastifySlice";
 
-export const resister = createAsyncThunk(
-  "resister",
+export const register = createAsyncThunk(
+  "register",
   async (
-    resisterData: {
+    registerData: {
       email: string | undefined;
       name: string | undefined;
       password: string | undefined;
@@ -16,7 +16,7 @@ export const resister = createAsyncThunk(
     { rejectWithValue, dispatch }
   ) => {
     try {
-      const { email, name, password, setIsChecked, navigate } = resisterData;
+      const { email, name, password, setIsChecked, navigate } = registerData;
       const response = await api.post("/user", { email, name, password });
 
       if (response.status !== 200) {

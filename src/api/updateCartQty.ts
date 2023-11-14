@@ -1,32 +1,27 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
-import { useNavigate } from "react-router-dom";
-import { userInfo } from "../redux/modules/userSlice";
 import { createToastify } from "../redux/modules/toastifySlice";
+import { getMyCart } from "./getMyCart";
 
-export const login = createAsyncThunk(
-  "login",
+export const updateCartQty = createAsyncThunk(
+  "cart",
   async (
-    loginData: {
-      email: string;
-      password: string;
-      navigate: ReturnType<typeof useNavigate>;
+    cartData: {
+      cartId: string;
+      type: string;
     },
     { rejectWithValue, dispatch }
   ) => {
     try {
-      const { email, password, navigate } = loginData;
-
-      const response = await api.post("/user/login", { email, password });
+      const { cartId, type } = cartData;
+      const response = await api.put("/cart/update", { cartId, type });
 
       if (response.status !== 200) {
         const errorMessage = response as any;
         throw errorMessage.error;
       }
 
-      dispatch(userInfo(response.data.user));
-      sessionStorage.setItem("token", response.data.token);
-      navigate("/");
+      dispatch(getMyCart({}));
     } catch (error) {
       const err = error as string;
       dispatch(

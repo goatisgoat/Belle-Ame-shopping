@@ -75,11 +75,6 @@ export const SignBtn = styled.button`
   background-color: ${colors.antiquewhite};
 `;
 
-export const SSS = styled.div`
-  margin-top: 40px;
-  margin-bottom: 30px;
-`;
-
 export const PolicyColor = styled.span<{ $policyError: boolean }>`
   color: ${(props) => (props.$policyError === true ? "red" : "black")};
 `;

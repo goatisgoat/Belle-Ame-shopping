@@ -1,17 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import resisterSlice from "../modules/resisterSlice";
+import registerSlice from "../modules/registerSlice";
 import userSlice from "../modules/userSlice";
 import productSlice from "../modules/productSlice";
 import toastifySlice from "../modules/toastifySlice";
 import cartSlice from "../modules/cartSlice";
+import orderSlice from "../modules/orderSlice";
 
 const store = configureStore({
   reducer: {
-    resister: resisterSlice,
+    register: registerSlice,
     user: userSlice,
     product: productSlice,
     toastify: toastifySlice,
     cart: cartSlice,
+    order: orderSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

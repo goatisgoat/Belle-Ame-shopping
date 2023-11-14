@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { createToastify } from "../redux/modules/toastifySlice";
-import { getCartLength } from "../redux/modules/cartSlice";
+import { getCartLengthFc } from "../redux/modules/cartSlice";
 
 export const createCart = createAsyncThunk(
   "cart",
@@ -23,7 +23,7 @@ export const createCart = createAsyncThunk(
         throw errorMessage.error;
       }
 
-      dispatch(getCartLength(response.data.cartItemLength));
+      dispatch(getCartLengthFc(response.data.cartItemLength));
       dispatch(
         createToastify({
           status: "success",

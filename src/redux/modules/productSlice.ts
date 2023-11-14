@@ -29,19 +29,15 @@ const productSlice = createSlice({
       state.productsList = [...action.payload.products];
       state.totalPageNum = action.payload.totalPageNum;
     },
-    getProductListMain: (
-      state,
-      action: PayloadAction<{ products: Product[]; totalPageNum: number }>
-    ) => {
-      state.productsList = [...state.productsList, ...action.payload.products];
-      state.totalPageNum = action.payload.totalPageNum;
-      state.isLoading = false;
-    },
+
     deleteProductListMain: (state) => {
       state.productsList = [];
     },
     isLoadingTrue: (state) => {
       state.isLoading = true;
+    },
+    isLoadingFalse: (state) => {
+      state.isLoading = false;
     },
     getProductOneFc: (
       state,
@@ -58,10 +54,11 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
+
 export const {
   getProductListAdmin,
-  getProductListMain,
   deleteProductListMain,
   isLoadingTrue,
+  isLoadingFalse,
   getProductOneFc,
 } = productSlice.actions;

@@ -36,6 +36,7 @@ export const Items = styled.div`
 export const Item = styled.div`
   height: 600px;
   position: relative;
+  margin-bottom: 20px;
   cursor: pointer;
 
   & > img {
@@ -100,8 +101,12 @@ export const Search = styled.div`
 //
 export const NamePrice = styled.div`
   padding-top: 5px;
-
   & > span {
-    margin-bottom: 3px;
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
 `;

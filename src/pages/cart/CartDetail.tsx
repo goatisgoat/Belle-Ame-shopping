@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/config/ConfigStore";
-import { getCartItem } from "../../api/getCartItem";
+import { getMyCart } from "../../api/getMyCart";
 import Text from "../../components/common/Text";
-import { updateCartNum } from "../../api/updateCartNum";
+import { updateCartQty } from "../../api/updateCartQty";
 import { deleteCartItem } from "../../api/deleteCartItem";
 import * as S from "./CartDetail.styled";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ const CartDetail = () => {
   );
 
   useEffect(() => {
-    dispatch(getCartItem({}));
+    dispatch(getMyCart({}));
   }, []);
 
   const getTotalPrice = () => {
@@ -30,7 +30,7 @@ const CartDetail = () => {
 
   const handleQty = (cartId: string, type: string) => {
     dispatch(
-      updateCartNum({
+      updateCartQty({
         cartId,
         type,
       })
@@ -46,7 +46,7 @@ const CartDetail = () => {
   };
 
   const handleOrder = () => {
-    navigate("/order");
+    navigate("/order/payment");
   };
 
   return (
