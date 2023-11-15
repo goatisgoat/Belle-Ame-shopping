@@ -16,7 +16,6 @@ export const updateOrderStatus = createAsyncThunk(
   ) => {
     try {
       const { orderId, status, setIsModalOpen, searchQuery } = orderData;
-      console.log(orderId, status, searchQuery);
 
       const response = await api.put("/order", { orderId, status });
 

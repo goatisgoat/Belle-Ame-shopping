@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../api/register";
-import { AppDispatch } from "../../redux/config/ConfigStore";
-import { useNavigate } from "react-router-dom";
+import { AppDispatch, RootState } from "../../redux/config/ConfigStore";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,6 +11,8 @@ import { createToastify } from "../../redux/modules/toastifySlice";
 import * as S from "./Register.styled";
 
 const Register = () => {
+  const storedToken = sessionStorage.getItem("token");
+
   const [isChecked, setIsChecked] = useState(false);
 
   const [name, setName] = useState("");
@@ -54,6 +56,10 @@ const Register = () => {
       })
     );
   };
+
+  if (storedToken) {
+    return <Navigate to={"/"} />;
+  }
 
   return (
     <S.SignContainer>

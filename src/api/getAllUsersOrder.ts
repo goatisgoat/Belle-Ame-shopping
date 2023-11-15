@@ -22,7 +22,6 @@ export const getAllUsersOrder = createAsyncThunk(
         throw errorMessage.error;
       }
 
-      console.log(response.data.allUsersOrder);
       dispatch(
         getAllUsersOrderListFc({
           allUsersOrder: response.data.allUsersOrder,

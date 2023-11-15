@@ -27,11 +27,11 @@ export const colors = {
 
   cartDeleteBack: "#8c8c8c3a",
 
-  refund: "#ff58589c",
-  preparing: "#70c6ffa1",
-  panding: "#cb70ffc7",
-  shipped: "#ffca70",
-  delivered: "#7bff70a1",
+  refund: "#ff97979c",
+  preparing: "#abdeffa1",
+  panding: "#db9cffa8",
+  shipped: "#ffd794",
+  delivered: "#a3ff9ca1",
 
   adminDelete: "#ff7070a1",
 } as const;

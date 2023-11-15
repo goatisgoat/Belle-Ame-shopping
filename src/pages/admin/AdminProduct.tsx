@@ -81,7 +81,6 @@ const AdminProduct = () => {
 
   // 에러 업데이트
   const updateError = (field: string, value: boolean) => {
-    console.log(field, value, "updateError");
     setErrors((prevErrors) => ({
       ...prevErrors,
       [field]: value,
@@ -243,8 +242,6 @@ const AdminProduct = () => {
       (s) => s["size"] !== null && s["quantity"] !== null && s["quantity"] > 0
     );
 
-    console.log(isStockLength || haveStockInfo, isStockLength, haveStockInfo);
-
     if (isStockLength || haveStockInfo) {
       updateError("stock", true);
       haveBlankFoam = true;
@@ -276,7 +273,6 @@ const AdminProduct = () => {
     return dispatch(getProductAdmin({ ...searchQuery }));
   };
 
-  console.log(newProduct, stokes);
   return (
     <>
       <S.AdminContanier>

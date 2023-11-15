@@ -7,7 +7,10 @@ import { getProductHome } from "../../api/getProductHome";
 import { deleteProductListMain } from "../../redux/modules/productSlice";
 import Text from "../../components/common/Text";
 import { Product } from "../../models/product.type";
-import { banner } from "../../utility/imgConst";
+import { stepFourCarousel } from "../../utility/imgConst";
+import Navbar from "../../components/common/Navbar";
+import Carousel from "react-material-ui-carousel";
+import { useMediaQuery } from "@mui/material";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,6 +32,8 @@ const Home = () => {
   const observer = useRef<IntersectionObserver | null>(null);
   const [hasNextPage, setHasNextPage] = useState(true);
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const onCheckEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (e.currentTarget.value === "" && !searchQuery?.name) {
@@ -44,8 +49,6 @@ const Home = () => {
       });
     }
   };
-
-  console.log(productsList, "productsList");
 
   useEffect(() => {
     if (searchQuery?.name === "") {
@@ -112,9 +115,25 @@ const Home = () => {
   };
 
   return (
-    <>
+    <S.MainContainer>
+      <Navbar />
       <S.Banner>
-        <img src={banner} loading="lazy" />
+        <Carousel
+          cycleNavigation={true}
+          navButtonsAlwaysVisible={true}
+          duration={1500}
+          interval={9000}
+          indicators={false}
+        >
+          {stepFourCarousel.map((content, i) => (
+            <S.BannerImg
+              key={i}
+              src={isMobile ? content.mobileImage : content.pcImage}
+              alt={`Slide ${content}`}
+              loading="lazy"
+            />
+          ))}
+        </Carousel>
       </S.Banner>
       <S.SearchDiv>
         <div>
@@ -129,7 +148,6 @@ const Home = () => {
           </S.Search>
         </div>
       </S.SearchDiv>
-
       <S.Items>
         {productsList.map((p, i) =>
           productsList.length - 1 !== i ? (
@@ -157,7 +175,7 @@ const Home = () => {
           )
         )}
       </S.Items>
-    </>
+    </S.MainContainer>
   );
 };
 

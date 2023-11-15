@@ -41,7 +41,6 @@ const GlobalLayout = () => {
   return (
     <MainContainer $ignoreNavbar={ignoreNavbar}>
       {!ignoreNavbar && <Navbar />}
-
       <Outlet />
     </MainContainer>
   );
@@ -52,6 +51,5 @@ export default GlobalLayout;
 export const MainContainer = styled.div<{ $ignoreNavbar: boolean }>`
   max-width: 1200px;
   margin: 0 auto;
-  padding-top: 70px;
   padding-top: ${(props) => (props.$ignoreNavbar === true ? "0px" : "70px")};
 `;
