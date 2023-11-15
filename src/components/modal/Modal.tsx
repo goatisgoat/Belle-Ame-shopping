@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { zIndex } from "../../utility/zIndex";
 import { colors } from "../../style/theme/colors";
 
+//
 export type ModalProps = {
   children: ReactNode;
   isOpen: boolean;
