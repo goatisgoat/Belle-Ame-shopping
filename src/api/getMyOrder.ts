@@ -9,7 +9,6 @@ export const getMyOrder = createAsyncThunk(
     try {
       const response = await api.get("/order");
 
-      console.log(response.data.order, "response");
       if (response.status !== 200) {
         const errorMessage = response as any;
         throw errorMessage.error;

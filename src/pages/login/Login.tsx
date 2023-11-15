@@ -4,19 +4,19 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { loginWithEmail } from "../../api/loginWithEmail";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/config/ConfigStore";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import * as S from "./Login.styled";
 import { GoogleLogin } from "@react-oauth/google";
 import { loginWithGoogle } from "../../api/loginWIthGoogle";
 
 const Login = () => {
+  const storedToken = sessionStorage.getItem("token");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  const { userState } = useSelector((state: RootState) => state.user);
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,15 +30,19 @@ const Login = () => {
     );
   };
 
-  useEffect(() => {
-    if (userState._id) {
-      navigate("/");
-    }
-  }, [userState]);
+  // useEffect(() => {
+  //   if (userState._id) {
+  //     navigate("/");
+  //   }
+  // }, [userState]);
 
   const handleGoogleLogin = async (googleData: any) => {
     dispatch(loginWithGoogle({ credential: googleData.credential, navigate }));
   };
+
+  if (storedToken) {
+    return <Navigate to={"/"} />;
+  }
 
   return (
     <S.LoginContainer>

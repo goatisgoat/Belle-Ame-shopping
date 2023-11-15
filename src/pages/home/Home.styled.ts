@@ -1,17 +1,27 @@
 import styled from "styled-components";
 import { colors } from "../../style/theme/colors";
 
+export const MainContainer = styled.div`
+  padding-top: 70px;
+`;
+
 export const Banner = styled.div`
-  height: 600px;
-  & > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+`;
+
+export const BannerImg = styled.img`
+  width: 100%;
+  object-fit: cover;
+
+  @media only screen and (max-width: 600px) {
+    /* height: 80vh; */
   }
 `;
 
 export const Items = styled.div`
-  margin-top: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 60px;
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(3, 1fr);

@@ -151,7 +151,6 @@ const Order = () => {
       default:
     }
   };
-  console.log(cartList, "cardValueError");
 
   const handleOrder = () => {
     const { firstName, lastName, contact, address, city, zip } = shipInfo;
