@@ -5,19 +5,6 @@ export const MainContainer = styled.div`
   padding-top: 70px;
 `;
 
-export const Banner = styled.div`
-  width: 100%;
-`;
-
-export const BannerImg = styled.img`
-  width: 100%;
-  object-fit: cover;
-
-  @media only screen and (max-width: 600px) {
-    /* height: 80vh; */
-  }
-`;
-
 export const Items = styled.div`
   max-width: 1200px;
   margin: 0 auto;
