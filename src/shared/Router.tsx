@@ -12,6 +12,7 @@ import Order from "../pages/order/Order";
 import OrderComplete from "../pages/order/OrderComplete";
 import MyOrderList from "../pages/order/MyOrderList";
 import PrivateRoute from "../privateRoute/PrivateRoute";
+import Kakao from "../pages/login/Kakao";
 
 const Router = () => {
   return (
@@ -53,6 +54,7 @@ const Router = () => {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/auth/kakao" element={<Kakao />} />
         </Route>
         <Route path="/" element={<Home />} />
         <Route element={<Admin />}>

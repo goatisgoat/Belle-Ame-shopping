@@ -84,6 +84,12 @@ export const LoginBtn = styled.button`
   background-color: ${colors.antiquewhite};
 `;
 
+export const SocialLogin = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
 export const GoogleIcon = styled.div`
   width: 45px;
   height: 45px;
@@ -98,5 +104,22 @@ export const GoogleIcon = styled.div`
   & > img {
     width: 25px;
     height: 25px;
+  }
+`;
+
+export const KakaoIcon = styled.div`
+  width: 45px;
+  height: 45px;
+  border: 1px solid ${colors.gray_200};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  & > img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
   }
 `;

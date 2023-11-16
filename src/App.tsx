@@ -33,7 +33,8 @@ function App() {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [userState._id]);
+
   return (
     <>
       <ThemeProvider theme={theme}>
