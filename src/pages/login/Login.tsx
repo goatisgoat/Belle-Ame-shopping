@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { loginWithEmail } from "../../api/loginWithEmail";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/config/ConfigStore";
-import { useNavigate, Link, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/config/ConfigStore";
+import { useNavigate, Navigate } from "react-router-dom";
 import * as S from "./Login.styled";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { loginWithGoogle } from "../../api/loginWIthGoogle";
+import { GoogleLogo } from "../../utility/imgConst";
 
 const Login = () => {
   const storedToken = sessionStorage.getItem("token");
@@ -30,15 +31,12 @@ const Login = () => {
     );
   };
 
-  // useEffect(() => {
-  //   if (userState._id) {
-  //     navigate("/");
-  //   }
-  // }, [userState]);
-
-  const handleGoogleLogin = async (googleData: any) => {
-    dispatch(loginWithGoogle({ credential: googleData.credential, navigate }));
-  };
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async ({ code }) => {
+      dispatch(loginWithGoogle({ code, navigate }));
+    },
+    flow: "auth-code",
+  });
 
   if (storedToken) {
     return <Navigate to={"/"} />;
@@ -74,14 +72,9 @@ const Login = () => {
         Don't you have an account?
         <S.SignColor to="/register">Sign up</S.SignColor>
       </S.HaveAccount>
-      <div>
-        <GoogleLogin
-          onSuccess={handleGoogleLogin}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-        />
-      </div>
+      <S.GoogleIcon onClick={() => handleGoogleLogin()}>
+        <img src={GoogleLogo} alt="Google-Logo" />
+      </S.GoogleIcon>
     </S.LoginContainer>
   );
 };

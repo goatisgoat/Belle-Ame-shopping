@@ -8,15 +8,15 @@ export const loginWithGoogle = createAsyncThunk(
   "login",
   async (
     loginData: {
-      credential: string;
+      code: string;
       navigate: ReturnType<typeof useNavigate>;
     },
     { rejectWithValue, dispatch }
   ) => {
     try {
-      const { credential, navigate } = loginData;
+      const { code, navigate } = loginData;
 
-      const response = await api.post("/user/google", { credential });
+      const response = await api.post("/user/google", { code });
 
       if (response.status !== 200) {
         const errorMessage = response as any;

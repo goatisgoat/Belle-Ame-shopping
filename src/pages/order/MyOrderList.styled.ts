@@ -42,3 +42,7 @@ export const Status = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const NotFound = styled.div`
+  margin-top: 30px;
+`;

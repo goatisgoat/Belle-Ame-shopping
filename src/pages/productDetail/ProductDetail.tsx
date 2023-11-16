@@ -7,11 +7,13 @@ import CartSelect from "../../components/select/CartSelect";
 import { createCart } from "../../api/createCart";
 import * as S from "./ProductDetail.styled";
 import { StockList } from "../../utility/utils";
+import { createToastify } from "../../redux/modules/toastifySlice";
 
 const ProductDetail = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
 
+  const { userState } = useSelector((state: RootState) => state.user);
   const { productOne } = useSelector((state: RootState) => state.product);
 
   const [sizeList, setSizeList] = useState<string[] | null>(null);
@@ -47,6 +49,14 @@ const ProductDetail = () => {
   };
 
   const handleOrder = () => {
+    if (!userState._id) {
+      return dispatch(
+        createToastify({
+          status: "success",
+          message: "로그인 후 이용해주세요.",
+        })
+      );
+    }
     if (selectedSize === "--") return setCartError(true);
 
     dispatch(createCart({ productId: id, size: selectedSize, qty: 1 }));
