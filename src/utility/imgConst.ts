@@ -26,6 +26,9 @@ export const productImg =
 export const orderImg =
   "https://icons.veryicon.com/png/o/system/linear-chh/order-27.png";
 
+export const GoogleLogo =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png";
+
 export const desktopCarousel = [
   {
     image: banner1,

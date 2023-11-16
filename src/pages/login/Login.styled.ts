@@ -49,7 +49,7 @@ export const InputWrap = styled.div`
 export const HaveAccount = styled.div`
   width: 80%;
   margin-top: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   font-size: 13px;
   display: flex;
   justify-content: center;
@@ -82,4 +82,21 @@ export const LoginBtn = styled.button`
   font-weight: 400;
   border-radius: 5px;
   background-color: ${colors.antiquewhite};
+`;
+
+export const GoogleIcon = styled.div`
+  width: 45px;
+  height: 45px;
+  border: 1px solid ${colors.gray_200};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  cursor: pointer;
+
+  & > img {
+    width: 25px;
+    height: 25px;
+  }
 `;
