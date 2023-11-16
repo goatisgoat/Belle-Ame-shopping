@@ -29,6 +29,9 @@ export const orderImg =
 export const GoogleLogo =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png";
 
+export const KakaoLogo =
+  "https://cdn-icons-png.flaticon.com/512/4494/4494622.png";
+
 export const desktopCarousel = [
   {
     image: banner1,

@@ -8,7 +8,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import * as S from "./Login.styled";
 import { useGoogleLogin } from "@react-oauth/google";
 import { loginWithGoogle } from "../../api/loginWIthGoogle";
-import { GoogleLogo } from "../../utility/imgConst";
+import { GoogleLogo, KakaoLogo } from "../../utility/imgConst";
 
 const Login = () => {
   const storedToken = sessionStorage.getItem("token");
@@ -37,6 +37,14 @@ const Login = () => {
     },
     flow: "auth-code",
   });
+
+  const handleKakaoLogin = async () => {
+    const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+    const KAKAO_REDIRECT_URL = process.env.REACT_APP_KAKAO_REDIRECT_URL;
+
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URL}&response_type=code`;
+    window.location.href = kakaoURL;
+  };
 
   if (storedToken) {
     return <Navigate to={"/"} />;
@@ -72,9 +80,14 @@ const Login = () => {
         Don't you have an account?
         <S.SignColor to="/register">Sign up</S.SignColor>
       </S.HaveAccount>
-      <S.GoogleIcon onClick={() => handleGoogleLogin()}>
-        <img src={GoogleLogo} alt="Google-Logo" />
-      </S.GoogleIcon>
+      <S.SocialLogin>
+        <S.GoogleIcon onClick={() => handleGoogleLogin()}>
+          <img src={GoogleLogo} alt="Google-Logo" />
+        </S.GoogleIcon>
+        <S.KakaoIcon onClick={handleKakaoLogin}>
+          <img src={KakaoLogo} />
+        </S.KakaoIcon>
+      </S.SocialLogin>
     </S.LoginContainer>
   );
 };
