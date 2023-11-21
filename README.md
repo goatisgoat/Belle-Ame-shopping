@@ -3,6 +3,7 @@
 간편한 제품 등록, 관리자 대시보드를 갖춘 쇼핑몰 플랫폼
 
 사이트:https://euphonious-muffin-f4012e.netlify.app
+
 Admin계정 - admin@gmail.com, admin123
 
 BE: https://github.com/goatisgoat/Belle-Ame_BE
