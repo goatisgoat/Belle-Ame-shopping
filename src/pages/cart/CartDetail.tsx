@@ -6,17 +6,25 @@ import Text from "../../components/common/Text";
 import { updateCartQty } from "../../api/updateCartQty";
 import { deleteCartItem } from "../../api/deleteCartItem";
 import * as S from "./CartDetail.styled";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const CartDetail = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  const accessToken = sessionStorage.getItem("accessToken");
+  const refreshToken = sessionStorage.getItem("refreshToken");
+
+  const { userState } = useSelector((state: RootState) => state.user);
+
   const { cartLength, cartList } = useSelector(
     (state: RootState) => state.cart
   );
 
   useEffect(() => {
-    dispatch(getMyCart({}));
+    if (accessToken && refreshToken) {
+      dispatch(getMyCart({ navigate }));
+    }
   }, []);
 
   const getTotalPrice = () => {
@@ -33,6 +41,7 @@ const CartDetail = () => {
       updateCartQty({
         cartId,
         type,
+        navigate,
       })
     );
   };
@@ -41,6 +50,7 @@ const CartDetail = () => {
     dispatch(
       deleteCartItem({
         cartId,
+        navigate,
       })
     );
   };
@@ -48,6 +58,10 @@ const CartDetail = () => {
   const handleOrder = () => {
     navigate("/order/payment");
   };
+
+  if (!accessToken || !refreshToken) {
+    return <Navigate to={"/login"} />;
+  }
 
   return (
     <S.Container>

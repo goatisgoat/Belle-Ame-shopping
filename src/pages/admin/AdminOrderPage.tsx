@@ -50,7 +50,7 @@ const AdminOrderPage = () => {
   }, [searchQuery]);
 
   useEffect(() => {
-    dispatch(getAllUsersOrder({ ...searchQuery }));
+    dispatch(getAllUsersOrder({ search: { ...searchQuery }, navigate }));
   }, [query]);
 
   //pagenations

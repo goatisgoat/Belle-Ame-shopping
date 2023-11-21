@@ -9,9 +9,10 @@ import * as S from "./Login.styled";
 import { useGoogleLogin } from "@react-oauth/google";
 import { loginWithGoogle } from "../../api/loginWIthGoogle";
 import { GoogleLogo, KakaoLogo } from "../../utility/imgConst";
+import { resetTokenErrorHandled } from "../../utility/apiHelper";
 
 const Login = () => {
-  const storedToken = sessionStorage.getItem("token");
+  const accessToken = sessionStorage.getItem("accessToken");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +22,7 @@ const Login = () => {
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    resetTokenErrorHandled();
     dispatch(
       loginWithEmail({
         email,
@@ -33,12 +34,14 @@ const Login = () => {
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
+      resetTokenErrorHandled();
       dispatch(loginWithGoogle({ code, navigate }));
     },
     flow: "auth-code",
   });
 
   const handleKakaoLogin = async () => {
+    resetTokenErrorHandled();
     const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
     const KAKAO_REDIRECT_URL = process.env.REACT_APP_KAKAO_REDIRECT_URL;
 
@@ -46,7 +49,7 @@ const Login = () => {
     window.location.href = kakaoURL;
   };
 
-  if (storedToken) {
+  if (accessToken) {
     return <Navigate to={"/"} />;
   }
 

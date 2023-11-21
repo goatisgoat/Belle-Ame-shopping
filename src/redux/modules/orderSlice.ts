@@ -38,7 +38,7 @@ const orderSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(register.rejected, (state, action) => {});
+    // builder.addCase(.rejected, (state, action) => {});
   },
 });
 

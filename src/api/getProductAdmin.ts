@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { getProductListAdmin } from "../redux/modules/productSlice";
+import { ErrorType } from "../models/error.types";
 
 export const getProductAdmin = createAsyncThunk(
   "product",
@@ -9,7 +10,7 @@ export const getProductAdmin = createAsyncThunk(
       page?: string;
       name?: string;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       const response = await api.get(`/product`, {
@@ -17,8 +18,7 @@ export const getProductAdmin = createAsyncThunk(
       });
 
       if (response?.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
 
       dispatch(
@@ -28,8 +28,7 @@ export const getProductAdmin = createAsyncThunk(
         })
       );
     } catch (error) {
-      const err = error as string;
-      return rejectWithValue(error);
+      const typeError = error as ErrorType;
     }
   }
 );

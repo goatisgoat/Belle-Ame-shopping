@@ -2,6 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { InitialNewProduct } from "../models/product.type";
 import { createToastify } from "../redux/modules/toastifySlice";
+import { NavigateFunction } from "react-router-dom";
+import { ErrorType, RejectedError } from "../models/error.types";
+import { handleApiError } from "../utility/apiHelper";
 
 export const createProduct = createAsyncThunk(
   "product",
@@ -9,8 +12,9 @@ export const createProduct = createAsyncThunk(
     productData: {
       combined: InitialNewProduct;
       setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+      navigate: NavigateFunction;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       const { combined, setIsModalOpen } = productData;
@@ -18,8 +22,7 @@ export const createProduct = createAsyncThunk(
       const response = await api.post("/product", combined);
 
       if (response.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
 
       dispatch(
@@ -28,14 +31,23 @@ export const createProduct = createAsyncThunk(
 
       setIsModalOpen(false);
     } catch (error) {
-      const err = error as string;
+      const { navigate } = productData;
+      const typeError = error as ErrorType;
+
+      if ((error as RejectedError).specialError) {
+        const errorMessage = (error as RejectedError)?.error;
+        handleApiError(errorMessage, dispatch, navigate);
+        // navigate("/login");
+        return;
+      }
+
+      //일반에러
       dispatch(
         createToastify({
           status: "error",
-          message: err,
+          message: typeError.error,
         })
       );
-      return rejectWithValue(error);
     }
   }
 );

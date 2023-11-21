@@ -1,9 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { register } from "../../api/register";
+import { createSlice } from "@reduxjs/toolkit";
 
-type InitialState = {
-  error: null | string | unknown;
-};
+type InitialState = {};
 
 const initialState: InitialState = {
   error: null,
@@ -14,9 +11,8 @@ const registerSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(register.rejected, (state, action) => {
-      state.error = action.payload;
-    });
+    // builder.addCase(register.rejected, (state, action) => {
+    // });
   },
 });
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/config/ConfigStore";
 import { getProductOne } from "../../api/getProductOne";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CartSelect from "../../components/select/CartSelect";
 import { createCart } from "../../api/createCart";
 import * as S from "./ProductDetail.styled";
@@ -10,6 +10,7 @@ import { StockList } from "../../utility/utils";
 import { createToastify } from "../../redux/modules/toastifySlice";
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
 
@@ -59,7 +60,9 @@ const ProductDetail = () => {
     }
     if (selectedSize === "--") return setCartError(true);
 
-    dispatch(createCart({ productId: id, size: selectedSize, qty: 1 }));
+    dispatch(
+      createCart({ productId: id, size: selectedSize, qty: 1, navigate })
+    );
   };
   return (
     <>

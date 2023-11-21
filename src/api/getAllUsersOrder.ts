@@ -2,24 +2,29 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { createToastify } from "../redux/modules/toastifySlice";
 import { getAllUsersOrderListFc } from "../redux/modules/orderSlice";
+import { ErrorType, RejectedError } from "../models/error.types";
+import { NavigateFunction } from "react-router-dom";
+import { handleApiError } from "../utility/apiHelper";
 
 export const getAllUsersOrder = createAsyncThunk(
   "order",
   async (
     searchQuery: {
-      page?: string;
-      name?: string;
+      search: {
+        page?: string;
+        name?: string;
+      };
+      navigate: NavigateFunction;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       const response = await api.get("/order/total", {
-        params: { ...searchQuery, PAGE_SIZE: 3 },
+        params: { ...searchQuery.search, PAGE_SIZE: 3 },
       });
 
       if (response.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
 
       dispatch(
@@ -29,14 +34,22 @@ export const getAllUsersOrder = createAsyncThunk(
         })
       );
     } catch (error) {
-      const err = error as string;
+      const { navigate } = searchQuery;
+      const typeError = error as ErrorType;
+
+      if ((error as RejectedError).specialError) {
+        const errorMessage = (error as RejectedError)?.error;
+        handleApiError(errorMessage, dispatch, navigate);
+        return;
+      }
+
+      //일반에러
       dispatch(
         createToastify({
           status: "error",
-          message: err,
+          message: typeError.error,
         })
       );
-      return rejectWithValue(error);
     }
   }
 );

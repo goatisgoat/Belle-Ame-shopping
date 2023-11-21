@@ -11,7 +11,7 @@ import { createToastify } from "../../redux/modules/toastifySlice";
 import * as S from "./Register.styled";
 
 const Register = () => {
-  const storedToken = sessionStorage.getItem("token");
+  const accessToken = sessionStorage.getItem("accessToken");
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -57,7 +57,7 @@ const Register = () => {
     );
   };
 
-  if (storedToken) {
+  if (accessToken) {
     return <Navigate to={"/"} />;
   }
 

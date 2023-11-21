@@ -1,32 +1,30 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction } from "react-router-dom";
 import { userInfo } from "../redux/modules/userSlice";
 import { createToastify } from "../redux/modules/toastifySlice";
 import { ErrorType } from "../models/error.types";
 
-export const loginWithGoogle = createAsyncThunk(
-  "login",
+export const logout = createAsyncThunk(
+  "logout",
   async (
     loginData: {
-      code: string;
-      navigate: ReturnType<typeof useNavigate>;
+      navigate: NavigateFunction;
     },
     { dispatch }
   ) => {
     try {
-      const { code, navigate } = loginData;
+      const { navigate } = loginData;
 
-      const response = await api.post("/user/google", { code });
+      const response = await api.get("/user/token");
 
       if (response.status !== 200) {
         throw response;
       }
 
-      dispatch(userInfo(response.data.user));
-      sessionStorage.setItem("accessToken", response.data.accessToken);
-      sessionStorage.setItem("refreshToken", response.data.refreshToken);
-      navigate("/");
+      dispatch(userInfo({ name: null, email: null, _id: null, level: null }));
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("refreshToken");
     } catch (error) {
       const typeError = error as ErrorType;
 

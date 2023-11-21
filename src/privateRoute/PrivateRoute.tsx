@@ -6,9 +6,9 @@ type Props = {
 };
 
 const PrivateRoute = ({ children }: Props) => {
-  const storedToken = sessionStorage.getItem("token");
+  const accessToken = sessionStorage.getItem("accessToken");
 
-  return <>{storedToken ? children : <Navigate to={"/login"} />}</>;
+  return <>{accessToken ? children : <Navigate to={"/login"} />}</>;
 };
 
 export default PrivateRoute;

@@ -3,6 +3,7 @@ import api from "../utility/api";
 import { useNavigate } from "react-router-dom";
 import { userInfo } from "../redux/modules/userSlice";
 import { createToastify } from "../redux/modules/toastifySlice";
+import { ErrorType } from "../models/error.types";
 
 export const loginWithKakao = createAsyncThunk(
   "login",
@@ -11,7 +12,7 @@ export const loginWithKakao = createAsyncThunk(
       code: string;
       navigate: ReturnType<typeof useNavigate>;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       const { code, navigate } = loginData;
@@ -19,22 +20,22 @@ export const loginWithKakao = createAsyncThunk(
       const response = await api.post("/user/kakao", { code });
 
       if (response.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
 
       dispatch(userInfo(response.data.user));
-      sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem("accessToken", response.data.accessToken);
+      sessionStorage.setItem("refreshToken", response.data.refreshToken);
       navigate("/");
     } catch (error) {
-      const err = error as string;
+      const typeError = error as ErrorType;
+
       dispatch(
         createToastify({
           status: "error",
-          message: err,
+          message: typeError.error,
         })
       );
-      return rejectWithValue(error);
     }
   }
 );

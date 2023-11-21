@@ -16,53 +16,51 @@ import Kakao from "../pages/login/Kakao";
 
 const Router = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<GlobalLayout />}>
-          <Route path="/:id" element={<ProductDetail />} />
-          <Route
-            path="/order/sucess"
-            element={
-              <PrivateRoute>
-                <OrderComplete />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/order/list"
-            element={
-              <PrivateRoute>
-                <MyOrderList />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/cart"
-            element={
-              <PrivateRoute>
-                <CartDetail />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/order/payment"
-            element={
-              <PrivateRoute>
-                <Order />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/auth/kakao" element={<Kakao />} />
-        </Route>
-        <Route path="/" element={<Home />} />
-        <Route element={<Admin />}>
-          <Route path="/admin/product" element={<AdminProduct />} />
-          <Route path="/admin/order" element={<AdminOrderPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route element={<GlobalLayout />}>
+        <Route path="/:id" element={<ProductDetail />} />
+        <Route
+          path="/order/sucess"
+          element={
+            <PrivateRoute>
+              <OrderComplete />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/order/list"
+          element={
+            <PrivateRoute>
+              <MyOrderList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            // <PrivateRoute>
+            <CartDetail />
+            // </PrivateRoute>
+          }
+        />
+        <Route
+          path="/order/payment"
+          element={
+            <PrivateRoute>
+              <Order />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/auth/kakao" element={<Kakao />} />
+      </Route>
+      <Route path="/" element={<Home />} />
+      <Route element={<Admin />}>
+        <Route path="/admin/product" element={<AdminProduct />} />
+        <Route path="/admin/order" element={<AdminOrderPage />} />
+      </Route>
+    </Routes>
   );
 };
 

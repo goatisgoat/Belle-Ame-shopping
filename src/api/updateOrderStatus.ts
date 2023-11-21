@@ -2,6 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { createToastify } from "../redux/modules/toastifySlice";
 import { getAllUsersOrder } from "./getAllUsersOrder";
+import { NavigateFunction } from "react-router-dom";
+import { ErrorType, RejectedError } from "../models/error.types";
+import { handleApiError } from "../utility/apiHelper";
 
 export const updateOrderStatus = createAsyncThunk(
   "order",
@@ -11,17 +14,18 @@ export const updateOrderStatus = createAsyncThunk(
       status: string | undefined;
       setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
       searchQuery: { [key: string]: string };
+      navigate: NavigateFunction;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
-      const { orderId, status, setIsModalOpen, searchQuery } = orderData;
+      const { orderId, status, setIsModalOpen, searchQuery, navigate } =
+        orderData;
 
       const response = await api.put("/order", { orderId, status });
 
       if (response.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
 
       dispatch(
@@ -29,16 +33,24 @@ export const updateOrderStatus = createAsyncThunk(
       );
 
       setIsModalOpen(false);
-      dispatch(getAllUsersOrder({ ...searchQuery }));
+      dispatch(getAllUsersOrder({ search: { ...searchQuery }, navigate }));
     } catch (error) {
-      const err = error as string;
+      const { navigate } = orderData;
+      const typeError = error as ErrorType;
+
+      if ((error as RejectedError).specialError) {
+        const errorMessage = (error as RejectedError)?.error;
+        handleApiError(errorMessage, dispatch, navigate);
+        return;
+      }
+
+      //일반에러
       dispatch(
         createToastify({
           status: "error",
-          message: err,
+          message: typeError.error,
         })
       );
-      return rejectWithValue(error);
     }
   }
 );
