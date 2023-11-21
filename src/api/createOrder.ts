@@ -4,6 +4,9 @@ import { createToastify } from "../redux/modules/toastifySlice";
 import { NavigateFunction } from "react-router-dom";
 import { getOrderSucessString } from "../redux/modules/orderSlice";
 import { CreateOrder } from "../models/order.types";
+import { RejectedError } from "../models/error.types";
+import { deleteCartItems } from "../redux/modules/cartSlice";
+import { handleApiError } from "../utility/apiHelper";
 
 export const createOrder = createAsyncThunk(
   "order",
@@ -12,7 +15,7 @@ export const createOrder = createAsyncThunk(
       totalData: CreateOrder;
       navigate: NavigateFunction;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       const { totalData, navigate } = orderData;
@@ -32,11 +35,18 @@ export const createOrder = createAsyncThunk(
         })
       );
 
-      dispatch(getOrderSucessString(response.data.orderNum));
+      dispatch(deleteCartItems());
 
+      dispatch(getOrderSucessString(response.data.orderNum));
       navigate("/order/sucess");
     } catch (error) {
-      const err = error as string;
+      const { navigate } = orderData;
+
+      if ((error as RejectedError).specialError) {
+        const errorMessage = (error as RejectedError)?.error;
+        handleApiError(errorMessage, dispatch, navigate);
+        return;
+      }
 
       if (error instanceof Error) {
         const errorMessageParse = JSON.parse(error.message);
@@ -55,7 +65,6 @@ export const createOrder = createAsyncThunk(
 
         await dispatchSequentially();
       }
-      return rejectWithValue(error);
     }
   }
 );

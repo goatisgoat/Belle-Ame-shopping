@@ -35,12 +35,21 @@ const cartSlice = createSlice({
       state.cartList = action.payload.cartList;
       state.cartLength = action.payload.cartLength;
     },
+    deleteCartItems: (state) => {
+      state.cartList = null;
+      state.cartLength = 0;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(register.rejected, (state, action) => {});
+    // builder.addCase(.rejected, (state, action) => {});
   },
 });
 
 export default cartSlice.reducer;
-export const { getCartLengthFc, plusCartLength, minusCartLength, getMyCartFc } =
-  cartSlice.actions;
+export const {
+  getCartLengthFc,
+  plusCartLength,
+  minusCartLength,
+  getMyCartFc,
+  deleteCartItems,
+} = cartSlice.actions;

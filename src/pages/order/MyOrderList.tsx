@@ -7,13 +7,15 @@ import { getMyOrder } from "../../api/getMyOrder";
 import { colors } from "../../style/theme/colors";
 import * as S from "./MyOrderList.styled";
 import { formatDate } from "../../utility/date";
+import { useNavigate } from "react-router-dom";
 
 const MyOrderList = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { myOrderList } = useSelector((state: RootState) => state.order);
 
   useEffect(() => {
-    dispatch(getMyOrder({}));
+    dispatch(getMyOrder({ navigate }));
   }, []);
 
   return (

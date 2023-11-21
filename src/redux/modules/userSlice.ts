@@ -25,11 +25,10 @@ const userSlice = createSlice({
       };
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase(loginThunk.rejected, (state, action) => {
-  //     state.error = action.payload;
-  //   });
-  // },
+  extraReducers: (builder) => {
+    // builder.addCase(authUser.rejected, (state, action) => {
+    // });
+  },
 });
 
 export default userSlice.reducer;

@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { useNavigate } from "react-router-dom";
 import { createToastify } from "../redux/modules/toastifySlice";
+import { ErrorType } from "../models/error.types";
 
 export const register = createAsyncThunk(
   "register",
@@ -13,15 +14,14 @@ export const register = createAsyncThunk(
       setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
       navigate: ReturnType<typeof useNavigate>;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       const { email, name, password, setIsChecked, navigate } = registerData;
       const response = await api.post("/user", { email, name, password });
 
       if (response.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
       setIsChecked(false);
 
@@ -34,14 +34,14 @@ export const register = createAsyncThunk(
 
       navigate("/login");
     } catch (error) {
-      const err = error as string;
+      const typeError = error as ErrorType;
+
       dispatch(
         createToastify({
           status: "error",
-          message: err,
+          message: typeError.error,
         })
       );
-      rejectWithValue(error);
     }
   }
 );

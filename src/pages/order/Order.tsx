@@ -195,7 +195,7 @@ const Order = () => {
 
     if (
       String(number).length !== 16 ||
-      String(expiry).length !== 4 ||
+      String(expiry).length !== 5 ||
       String(cvc).length !== 3
     ) {
       return setCardValueError({

@@ -2,6 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { createToastify } from "../redux/modules/toastifySlice";
 import { getCartLengthFc } from "../redux/modules/cartSlice";
+import { ErrorType, RejectedError } from "../models/error.types";
+import { NavigateFunction } from "react-router-dom";
+import { handleApiError } from "../utility/apiHelper";
 
 export const createCart = createAsyncThunk(
   "cart",
@@ -10,8 +13,9 @@ export const createCart = createAsyncThunk(
       productId: string | undefined;
       size: string;
       qty: number;
+      navigate: NavigateFunction;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       const { productId, size, qty } = cartData;
@@ -19,8 +23,7 @@ export const createCart = createAsyncThunk(
       const response = await api.post("/cart", { productId, size, qty });
 
       if (response.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
 
       dispatch(getCartLengthFc(response.data.cartItemLength));
@@ -31,14 +34,22 @@ export const createCart = createAsyncThunk(
         })
       );
     } catch (error) {
-      const err = error as string;
+      const { navigate } = cartData;
+      const typeError = error as ErrorType;
+
+      if ((error as RejectedError).specialError) {
+        const errorMessage = (error as RejectedError)?.error;
+        handleApiError(errorMessage, dispatch, navigate);
+        return;
+      }
+
+      //일반에러
       dispatch(
         createToastify({
           status: "error",
-          message: err,
+          message: typeError.error,
         })
       );
-      return rejectWithValue(error);
     }
   }
 );

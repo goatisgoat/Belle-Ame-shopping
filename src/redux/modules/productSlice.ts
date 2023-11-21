@@ -3,7 +3,7 @@ import { createProduct } from "../../api/createProduct";
 import { Product } from "../../models/product.type";
 
 type InitialState = {
-  error: null | string | unknown;
+  // error: null | string | unknown;
   productsList: Product[] | [];
   totalPageNum: number | null;
   isLoading: boolean;
@@ -11,7 +11,7 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  error: null,
+  // error: null,
   productsList: [],
   totalPageNum: null,
   isLoading: false,
@@ -48,7 +48,7 @@ const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(createProduct.rejected, (state, action) => {
-      state.error = action.payload;
+      // state.error = action.payload;
     });
   },
 });

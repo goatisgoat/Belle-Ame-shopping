@@ -3,7 +3,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SideMenu from "../../components/admin/SideMenu";
 import SideMobileMenu from "../../components/admin/SideMobileMenu";
 import * as S from "./Admin.styled";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/config/ConfigStore";
 
@@ -18,10 +18,6 @@ const Admin = () => {
 
     setIsHiddenMenu(!isHiddenMenu);
   };
-
-  if (userState.level !== "admin") {
-    return <Navigate to={"/login"} />;
-  }
 
   return (
     <S.Container>

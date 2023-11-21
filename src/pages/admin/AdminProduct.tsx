@@ -92,7 +92,7 @@ const AdminProduct = () => {
     const confirmResult = window.confirm("삭제하시겠습니까?");
 
     if (confirmResult) {
-      dispatch(deleteProduct({ deleteProductId: row._id }));
+      dispatch(deleteProduct({ deleteProductId: row._id, navigate }));
     }
   };
 
@@ -263,10 +263,16 @@ const AdminProduct = () => {
     };
 
     if (mode === "new") {
-      await dispatch(createProduct({ combined, setIsModalOpen }));
+      await dispatch(createProduct({ combined, setIsModalOpen, navigate }));
     } else if (mode === "edit") {
       await dispatch(
-        updateProduct({ combined, setIsModalOpen, editProductId, searchQuery })
+        updateProduct({
+          combined,
+          setIsModalOpen,
+          editProductId,
+          searchQuery,
+          navigate,
+        })
       );
     }
 

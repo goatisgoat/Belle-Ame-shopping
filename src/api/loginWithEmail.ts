@@ -1,8 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { userInfo } from "../redux/modules/userSlice";
 import { createToastify } from "../redux/modules/toastifySlice";
+import { ErrorType } from "../models/error.types";
 
 export const loginWithEmail = createAsyncThunk(
   "login",
@@ -10,9 +11,9 @@ export const loginWithEmail = createAsyncThunk(
     loginData: {
       email: string;
       password: string;
-      navigate: ReturnType<typeof useNavigate>;
+      navigate: NavigateFunction;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       const { email, password, navigate } = loginData;
@@ -20,22 +21,23 @@ export const loginWithEmail = createAsyncThunk(
       const response = await api.post("/user/login", { email, password });
 
       if (response.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
 
       dispatch(userInfo(response.data.user));
-      sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem("accessToken", response.data.accessToken);
+      sessionStorage.setItem("refreshToken", response.data.refreshToken);
+
       navigate("/");
     } catch (error) {
-      const err = error as string;
+      const typeError = error as ErrorType;
+
       dispatch(
         createToastify({
           status: "error",
-          message: err,
+          message: typeError.error,
         })
       );
-      return rejectWithValue(error);
     }
   }
 );

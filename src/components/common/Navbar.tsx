@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AppDispatch, RootState } from "../../redux/config/ConfigStore";
 import { userInfo } from "../../redux/modules/userSlice";
@@ -15,8 +15,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { colors } from "../../style/theme/colors";
 import { pcLogo } from "../../utility/imgConst";
 import { zIndex } from "../../utility/zIndex";
+import { logout } from "../../api/logout";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userState } = useSelector((state: RootState) => state.user);
@@ -24,13 +26,12 @@ const Navbar = () => {
 
   useEffect(() => {
     if (userState._id) {
-      dispatch(getCartLength({}));
+      dispatch(getCartLength({ navigate }));
     }
   }, [userState._id]);
 
   const handleLogOut = () => {
-    dispatch(userInfo({ name: null, email: null, _id: null, level: null }));
-    sessionStorage.removeItem("token");
+    dispatch(logout({ navigate }));
   };
 
   const handleModal = () => {
@@ -39,6 +40,7 @@ const Navbar = () => {
 
     setIsModalOpen(!isModalOpen);
   };
+
   return (
     <Container>
       <InnerContainer>

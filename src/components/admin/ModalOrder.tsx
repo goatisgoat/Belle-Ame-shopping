@@ -19,6 +19,7 @@ import { updateOrderStatus } from "../../api/updateOrderStatus";
 import CloseIcon from "@mui/icons-material/Close";
 import { colors } from "../../style/theme/colors";
 import { formatDate } from "../../utility/date";
+import { useNavigate } from "react-router-dom";
 
 const myPaddingStyle = {
   paddingTop: 10,
@@ -38,6 +39,7 @@ const ModalOrder = ({
   setIsModalOpen,
   searchQuery,
 }: Props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const [updateStatus, setUpdateStatus] = useState(orderModalInfo?.status);
@@ -65,7 +67,13 @@ const ModalOrder = ({
     const status = updateStatus;
 
     dispatch(
-      updateOrderStatus({ orderId, status, setIsModalOpen, searchQuery })
+      updateOrderStatus({
+        orderId,
+        status,
+        setIsModalOpen,
+        searchQuery,
+        navigate,
+      })
     );
   };
   return (

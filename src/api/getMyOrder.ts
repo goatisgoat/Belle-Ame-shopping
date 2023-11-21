@@ -2,28 +2,37 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { createToastify } from "../redux/modules/toastifySlice";
 import { getMyOrderFc } from "../redux/modules/orderSlice";
+import { ErrorType, RejectedError } from "../models/error.types";
+import { NavigateFunction } from "react-router-dom";
+import { handleApiError } from "../utility/apiHelper";
 
 export const getMyOrder = createAsyncThunk(
   "order",
-  async (cartData: {}, { rejectWithValue, dispatch }) => {
+  async (orderData: { navigate: NavigateFunction }, { dispatch }) => {
     try {
       const response = await api.get("/order");
 
       if (response.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
 
       dispatch(getMyOrderFc(response.data.order));
     } catch (error) {
-      const err = error as string;
+      const { navigate } = orderData;
+      const typeError = error as ErrorType;
+
+      if ((error as RejectedError).specialError) {
+        const errorMessage = (error as RejectedError)?.error;
+        handleApiError(errorMessage, dispatch, navigate);
+        return;
+      }
+      //일반에러
       dispatch(
         createToastify({
           status: "error",
-          message: err,
+          message: typeError.error,
         })
       );
-      return rejectWithValue(error);
     }
   }
 );

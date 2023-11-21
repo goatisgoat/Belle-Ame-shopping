@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utility/api";
 import { isLoadingFalse, isLoadingTrue } from "../redux/modules/productSlice";
 import { Product } from "../models/product.type";
+import { ErrorType } from "../models/error.types";
 
 export const getProductHome = createAsyncThunk(
   "product",
@@ -12,7 +13,7 @@ export const getProductHome = createAsyncThunk(
       setProductsList: React.Dispatch<React.SetStateAction<Product[] | []>>;
       setTotalPageNum: React.Dispatch<React.SetStateAction<number | null>>;
     },
-    { rejectWithValue, dispatch }
+    { dispatch }
   ) => {
     try {
       dispatch(isLoadingTrue());
@@ -24,16 +25,14 @@ export const getProductHome = createAsyncThunk(
       });
 
       if (response?.status !== 200) {
-        const errorMessage = response as any;
-        throw errorMessage.error;
+        throw response;
       }
       setProductsList((pre) => pre && [...pre, ...response.data.products]);
 
       setTotalPageNum(response.data.totalPageNum);
       dispatch(isLoadingFalse());
     } catch (error) {
-      const err = error as string;
-      return rejectWithValue(error);
+      const typeError = error as ErrorType;
     }
   }
 );
