@@ -21,20 +21,12 @@ export const Search = styled.div`
 export const CreateBtnAdmin = styled.div`
   width: 90%;
   display: flex;
-
-  & > button {
-    padding: 10px 15px;
-    border-radius: 3px;
-    color: ${colors.basicWithBrown};
-    background-color: ${colors.basic};
-    cursor: pointer;
-  }
 `;
 
 export const AdminContanier = styled.div`
   width: calc(100% - 280px);
   height: 100vh;
-  padding-top: 50px;
+  padding-top: 40px;
   display: flex;
   justify-content: flex-start;
   align-items: center;

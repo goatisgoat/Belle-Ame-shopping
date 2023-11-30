@@ -33,12 +33,12 @@ export const getMyCart = createAsyncThunk(
       }
 
       //일반에러
-      dispatch(
-        createToastify({
-          status: "error",
-          message: typeError.error,
-        })
-      );
+      // dispatch(
+      //   createToastify({
+      //     status: "error",
+      //     message: typeError.error,
+      //   })
+      // );
     }
   }
 );

@@ -13,12 +13,12 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { orderColumns } from "../../utility/utils";
+import { CustomFontTableCell, orderColumns } from "../../utility/utils";
 import { getAllUsersOrder } from "../../api/getAllUsersOrder";
 import OrderTableCell from "../../components/admin/OrderTableCell";
 import OrderModal from "../../components/admin/ModalOrder";
 import { Order } from "../../models/order.types";
-import * as S from "./AdminOrderpage.styled";
+import * as S from "./AdminOrder.styled";
 
 const AdminOrderPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -79,7 +79,7 @@ const AdminOrderPage = () => {
         setKeyWord={setKeyWord}
       />
       <Paper sx={{ width: "90%", overflow: "hidden", marginTop: 5 }}>
-        <TableContainer sx={{ maxHeight: 500 }} id="my-table">
+        <TableContainer sx={{ maxHeight: "100%" }} id="my-table">
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -100,7 +100,7 @@ const AdminOrderPage = () => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                     {orderColumns.map((column) => {
                       return (
-                        <TableCell
+                        <CustomFontTableCell
                           key={column.id}
                           align={column.align}
                           style={{ cursor: "pointer" }}
@@ -112,7 +112,7 @@ const AdminOrderPage = () => {
                             length={i}
                             page={Number(query.get("page"))}
                           />
-                        </TableCell>
+                        </CustomFontTableCell>
                       );
                     })}
                   </TableRow>
@@ -123,7 +123,7 @@ const AdminOrderPage = () => {
         </TableContainer>
       </Paper>
       <Pagination
-        style={{ marginTop: 20, marginBottom: 10 }}
+        style={{ marginTop: 20, marginBottom: 30 }}
         shape="rounded"
         count={totalPageNum || 0}
         onChange={handlePagenation}

@@ -85,7 +85,11 @@ export const CityZip = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+`;
+
+export const Coupon = styled.div`
+  margin-bottom: 40px;
 `;
 
 export const CardForm = styled.div`

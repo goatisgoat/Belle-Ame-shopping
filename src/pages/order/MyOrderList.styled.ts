@@ -34,6 +34,11 @@ export const InfoStatusFlex = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const Status = styled.div`

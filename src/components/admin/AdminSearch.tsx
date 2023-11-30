@@ -59,4 +59,8 @@ export const Search = styled.div`
     outline: none;
     background-color: transparent;
   }
+
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
 `;

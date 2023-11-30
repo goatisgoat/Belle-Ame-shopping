@@ -2,26 +2,29 @@ import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
 const GlobalStyles = createGlobalStyle`
+    ${reset}
 
-${reset}
     *{
         box-sizing: border-box;
-        font-family: 'Noto Sans KR'; 
+        font-family:  'Roboto', 'Noto Sans KR';
+
+
     }    
     
     body{
+        font-family:  'Roboto', 'Noto Sans KR';
         line-height: 1.4;
-        font-family: 'Noto Sans KR', sans-serif;
         background-color: #faf9f8;
     }
 
     html, body, div, span, h1, h2, h3, h4, h5, h6, p,
     a, dl, dt, dd, ol, ul, li, form, label, table{
-        font-family: 'Noto Sans KR'; 
         margin: 0;
         padding: 0;
         border: 0;
         vertical-align: baseline;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
     }
     a{
         text-decoration: none;

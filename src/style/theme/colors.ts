@@ -34,4 +34,11 @@ export const colors = {
   delivered: "#a3ff9ca1",
 
   adminDelete: "#ff7070a1",
+
+  beige_100: "#FFF8EA",
+
+  purple_100: "#db9cffa8",
+  purple_200: "#db9cff",
+
+  adminLocation: "#ffcb2daa",
 } as const;

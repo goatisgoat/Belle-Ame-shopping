@@ -78,21 +78,20 @@ const ModalOrder = ({
   };
   return (
     <Modal isOpen={isModalOpen} setSelectOpen={setIsModalOpen}>
-      <Text size="18" bold="700">
+      <Text size={18} bold={700}>
         Order Detail
       </Text>
 
       <UserInfo>
-        <Text size="15">예약번호 : {orderModalInfo?.orderNum || ""}</Text>
-        <Text size="15">
-          주문날짜 :{" "}
-          {orderModalInfo ? formatDate(orderModalInfo.createdAt) : ""}
+        <Text size={15}>예약번호 : {orderModalInfo?.orderNum || ""}</Text>
+        <Text size={15}>
+          주문날짜 :{orderModalInfo ? formatDate(orderModalInfo.createdAt) : ""}
         </Text>
-        <Text size="15">이메일 : {orderModalInfo?.userId.email || ""}</Text>
-        <Text size="15">주소 : {orderModalInfo?.shipTo.address || ""}</Text>
-        <Text size="15">연락처 : {hypenTel}</Text>
+        <Text size={15}>이메일 : {orderModalInfo?.userId.email || ""}</Text>
+        <Text size={15}>주소 : {orderModalInfo?.shipTo.address || ""}</Text>
+        <Text size={15}>연락처 : {hypenTel}</Text>
       </UserInfo>
-      <Text size="14" bold="600" marginBottom="10px">
+      <Text size={14} bold={600} marginBottom={10}>
         - 주문목록 -
       </Text>
 
@@ -135,10 +134,10 @@ const ModalOrder = ({
           </TableBody>
         </Table>
       </TableContainer>
-      <Text size="13" bold="600" marginBottom="20px">
+      <Text size={13} bold={600} marginBottom={20}>
         Total Price - ₩ {String(totalPrice)}
       </Text>
-      <Text size="15" bold="600" marginBottom="10px">
+      <Text size={15} bold={600} marginBottom={10}>
         Status
       </Text>
       <Select
@@ -160,7 +159,6 @@ const ModalOrder = ({
         </Button>
       </EditBtnDiv>
       <Xbtn onClick={() => setIsModalOpen(false)}>
-        {" "}
         <CloseIcon />
       </Xbtn>
     </Modal>

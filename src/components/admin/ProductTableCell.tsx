@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { StockList } from "../../utility/utils";
 import Button from "../common/Button";
 import { colors } from "../../style/theme/colors";
+import Text from "../common/Text";
 
 type Props = {
   row: Product;
@@ -21,15 +22,19 @@ const ProductTableCell = ({
   handleDeleteProduct,
   handleEditProduct,
 }: Props) => {
-  if (column.id === "image") {
-    return <TableImg src={row[column.id]} />;
-  }
-
   if (column.id === "num") {
     const plusLen = length + 1;
     const TOTAL_PAGE = 3;
     const currentStartNum = (page - 1) * TOTAL_PAGE;
     return <div>{page === 1 ? plusLen : plusLen + currentStartNum}</div>;
+  }
+
+  if (column.id === "name") {
+    return <Text bold={800}>{row.name}</Text>;
+  }
+
+  if (column.id === "price") {
+    return <div>₩ {row.price.toLocaleString()}</div>;
   }
 
   if (column.id === "stock") {
@@ -47,6 +52,10 @@ const ProductTableCell = ({
     });
 
     return <div>{stockElements}</div>;
+  }
+
+  if (column.id === "image") {
+    return <TableImg src={row[column.id]} />;
   }
 
   if (column.id === "deleteEdit") {

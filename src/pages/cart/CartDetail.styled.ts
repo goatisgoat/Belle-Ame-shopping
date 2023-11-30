@@ -15,6 +15,7 @@ export const Container = styled.div`
 
 export const CartItems = styled.div`
   overflow-y: scroll;
+  position: relative;
   @media only screen and (max-width: 800px) {
     min-height: calc(100vh - 96px);
     max-height: calc(100vh - 96px);
@@ -26,6 +27,12 @@ export const Title = styled.div`
   text-align: center;
   font-size: 25px;
   font-weight: 700;
+`;
+
+export const HomeIconBtn = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
 `;
 
 export const ItemDiv = styled.div`

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { colors } from "../../style/theme/colors";
-import Modal from "../modal/ModalSelect";
+import ModalSelect from "../modal/ModalSelect";
 
 type props = {
   list: string[];
@@ -30,7 +30,7 @@ const Select = ({
       <div onClick={() => setSelectOpen((pre) => !pre)}>
         {defaultOption || "--"}
       </div>
-      <Modal
+      <ModalSelect
         isOpen={isSelectOpen}
         top={top}
         left={left}
@@ -49,7 +49,7 @@ const Select = ({
             </SelectLi>
           ))}
         </SelectUl>
-      </Modal>
+      </ModalSelect>
     </SelectTitle>
   );
 };
