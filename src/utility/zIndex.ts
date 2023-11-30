@@ -3,4 +3,7 @@ export const zIndex = {
   adminManu: 9999,
   navContainer: 999,
   adminMobileBack: -1,
+  adminMonileMenu: 99,
+  adminMonileMenuBack: 9,
+  menuContents: 999,
 };

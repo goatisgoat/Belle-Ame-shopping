@@ -1,10 +1,12 @@
+import { TableCell, makeStyles } from "@mui/material";
 import {
   InitialNewProduct,
   orderTableColumn,
   productTableColumn,
 } from "../models/product.type";
+import { createTheme, styled } from "@mui/system";
 
-export const Category = ["top", "dress", "skirt", "shirt", "jacket", "coat"];
+export const Category = ["jacket", "t-shirt", "pant", "skirt", "derss", "etc"];
 export const productStatus = ["active", "disactive"];
 export const orderStatus = [
   "preparing",
@@ -16,8 +18,8 @@ export const orderStatus = [
 
 export const productColumns: readonly productTableColumn[] = [
   { id: "num", label: "#", minWidth: 70 },
-  { id: "sku", label: "Sku", minWidth: 120 },
-  { id: "name", label: "name", minWidth: 120 },
+  { id: "sku", label: "Sku", minWidth: 120, align: "center" },
+  { id: "name", label: "name", minWidth: 120, align: "center" },
   {
     id: "price",
     label: "price",
@@ -47,8 +49,8 @@ export const productColumns: readonly productTableColumn[] = [
 
 export const orderColumns: readonly orderTableColumn[] = [
   { id: "num", label: "#", minWidth: 70 },
-  { id: "orderNum", label: "Order Num", minWidth: 120 },
-  { id: "orderItem", label: "Order Item", minWidth: 120 },
+  { id: "orderNum", label: "Order Num", minWidth: 120, align: "center" },
+  { id: "orderItem", label: "Order Item", minWidth: 120, align: "center" },
   {
     id: "user",
     label: "User",
@@ -99,3 +101,20 @@ export const initialErrors = {
   category: false,
   status: false,
 };
+
+export const theme = createTheme({
+  components: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          fontFamily: "RIDIBatang, Crimson Text, Noto Sans KR",
+        },
+      },
+    },
+  },
+});
+
+export const CustomFontTableCell = styled(TableCell)({
+  fontFamily: "Roboto Condensed, Noto Sans KR",
+  // 추가적인 스타일 속성들...
+});

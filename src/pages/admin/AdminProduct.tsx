@@ -21,14 +21,18 @@ import {
   productColumns,
   initialNewProduct,
   initialErrors,
+  CustomFontTableCell,
 } from "../../utility/utils";
 import AdminSearch from "../../components/admin/AdminSearch";
 import ProductTableCell from "../../components/admin/ProductTableCell";
 import ModalProduct from "../../components/admin/ModalProduct";
+import { colors } from "../../style/theme/colors";
+import Button from "../../components/common/Button";
 
 const AdminProduct = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
   //search
   const [query, setQuery] = useSearchParams();
   const [keyWord, setKeyWord] = useState("");
@@ -105,13 +109,16 @@ const AdminProduct = () => {
 
     setNewProduct({ ...row });
     setStokes(StockArray);
+    //////////
     setEditProductId(row._id);
     setMode("edit");
     setIsModalOpen(true);
   };
 
-  const handleCreateProduct = (type: string) => {
-    if (type === "new" && mode === "new") {
+  const handleOpenCreateProduct = (type: string) => {
+    const isCurrentPrevClickNew = type === "new" && mode === "new";
+
+    if (isCurrentPrevClickNew) {
       setIsModalOpen(true);
       setMode("new");
     } else {
@@ -263,7 +270,13 @@ const AdminProduct = () => {
     };
 
     if (mode === "new") {
-      await dispatch(createProduct({ combined, setIsModalOpen, navigate }));
+      await dispatch(createProduct({ combined, navigate }));
+      //초기화
+      setNewProduct(initialNewProduct);
+      setStokes([]);
+      setimgUrl("");
+      setIsModalOpen(false);
+      setMode("new");
     } else if (mode === "edit") {
       await dispatch(
         updateProduct({
@@ -289,12 +302,19 @@ const AdminProduct = () => {
           setKeyWord={setKeyWord}
         />
         <S.CreateBtnAdmin>
-          <button onClick={() => handleCreateProduct("new")}>
-            Create Product
-          </button>
+          <Button
+            Fontcolor={colors.basicWithBrown}
+            background={colors.antiquewhite}
+            borderRadius="20"
+            paddingTop="10"
+            paddingSide="15"
+            onClick={() => handleOpenCreateProduct("new")}
+          >
+            Create Product +
+          </Button>
         </S.CreateBtnAdmin>
-        <Paper sx={{ width: "90%", overflow: "hidden", marginTop: 5 }}>
-          <TableContainer sx={{ maxHeight: 500 }} id="my-table">
+        <Paper sx={{ width: "90%", overflow: "hidden", marginTop: 3 }}>
+          <TableContainer sx={{ maxHeight: "100%" }} id="my-table">
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -315,7 +335,10 @@ const AdminProduct = () => {
                     <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                       {productColumns.map((column) => {
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <CustomFontTableCell
+                            key={column.id}
+                            align={column.align}
+                          >
                             <ProductTableCell
                               row={row}
                               column={column}
@@ -324,7 +347,7 @@ const AdminProduct = () => {
                               handleDeleteProduct={handleDeleteProduct}
                               handleEditProduct={handleOpenEditProduct}
                             />
-                          </TableCell>
+                          </CustomFontTableCell>
                         );
                       })}
                     </TableRow>
@@ -335,7 +358,7 @@ const AdminProduct = () => {
           </TableContainer>
         </Paper>
         <Pagination
-          style={{ marginTop: 20, marginBottom: 10 }}
+          style={{ marginTop: 20, marginBottom: 30 }}
           shape="rounded"
           count={totalPageNum || 0}
           onChange={handlePagenation}

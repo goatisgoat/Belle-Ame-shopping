@@ -1,36 +1,28 @@
-import { useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import SideMenu from "../../components/admin/SideMenu";
 import SideMobileMenu from "../../components/admin/SideMobileMenu";
 import * as S from "./Admin.styled";
-import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/config/ConfigStore";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const Admin = () => {
-  const { userState } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [isHiddenMenu, setIsHiddenMenu] = useState(false);
-
-  const handleModal = () => {
-    if (!isHiddenMenu) document.body.style.overflow = "hidden";
-    if (isHiddenMenu) document.body.style.overflow = "scroll";
-
-    setIsHiddenMenu(!isHiddenMenu);
-  };
+  const currentUrlPath = location.pathname.split("/")[2];
 
   return (
     <S.Container>
       <S.Sidebar>
         {/* pc */}
-        <SideMenu />
-        <S.HomeBtn>
+        <SideMenu currentUrlPath={currentUrlPath} />
+        <S.HomeBtn onClick={() => navigate("/")}>
           <HomeIcon style={{ cursor: "pointer" }} />
+          <span>Home</span>
         </S.HomeBtn>
-
-        {/* 모바일 */}
-        <SideMobileMenu isHiddenMenu={isHiddenMenu} handleModal={handleModal} />
       </S.Sidebar>
+
+      {/* 모바일 */}
+      <SideMobileMenu />
       <Outlet />
     </S.Container>
   );

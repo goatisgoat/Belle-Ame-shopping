@@ -1,109 +1,281 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { colors } from "../../style/theme/colors";
 
-export const MainContainer = styled.div`
-  padding-top: 70px;
+const slide = keyframes`
+    from{
+      transform: translateX(0);
+    }
+    to{
+      transform: translateX(-100%);
+    }
+
 `;
 
-export const Items = styled.div`
+export const Container = styled.div`
+  overflow-x: hidden;
+`;
+
+export const Section = styled.section`
+  /* height: 100vh; */
+  /* scroll-snap-align: start; */
+`;
+
+///
+export const CategoryContainer = styled.div`
+  max-width: 1000px;
+  margin: 100px auto;
+  padding: 20px;
+  position: relative;
+
+  @media only screen and (max-width: 700px) {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-right: 0;
+
+    &::before {
+      content: "";
+      width: 50px;
+      height: 60%;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      bottom: 0;
+      z-index: 1;
+      background: linear-gradient(to right, rgba(225, 225, 225, 0), white);
+    }
+  }
+`;
+
+export const CategoryTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  & > p:first-child {
+    font-family: "Patrick Hand", "Noto Sans KR";
+  }
+  & > p:last-child {
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 700px) {
+    & > p:last-child {
+      padding-right: 20px;
+    }
+  }
+`;
+
+export const CategorysImgDiv = styled.div`
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  overflow-x: scroll;
+  align-items: center;
+  position: relative;
+
+  @media only screen and (max-width: 700px) {
+    justify-content: start;
+  }
+`;
+
+export const FLexColumn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+
+  & > span {
+    margin-top: 10px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    margin-right: 30px;
+  }
+`;
+
+export const CategorysImg = styled.img`
+  width: 60px;
+  height: 60px;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: ${colors.antiquewhite};
+`;
+
+///Slider
+export const BestItemsContainer = styled.div`
+  display: none;
+  width: 260%;
+  margin-bottom: 60px;
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+`;
+
+export const BestItemTitle = styled.div`
+  padding-left: 20px;
+  font-family: "Patrick Hand", "Noto Sans KR";
+`;
+
+export const BestItemDiv = styled.div`
+  height: calc(100vh);
+  max-height: 600px;
+  padding: 10px;
+  cursor: pointer;
+
+  @media only screen and (max-width: 600px) {
+    max-height: 700px;
+  }
+
+  @media only screen and (max-width: 550px) {
+    max-height: 600px;
+  }
+  @media only screen and (max-width: 450px) {
+    max-height: 500px;
+  }
+`;
+
+export const ItemImg = styled.img`
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 2%;
+`;
+
+export const ItemName = styled.div`
+  height: 10%;
+  padding-top: 5px;
+  padding-left: 5px;
+`;
+
+// ------------------------
+
+export const AutoInfinitSlide = styled.div`
+  height: 600px;
+  background-color: #1c1e1d;
+  margin-bottom: 150px;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+
+  &:hover div {
+    animation-play-state: paused;
+  }
+
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
+`;
+
+export const InfinitImgDiv = styled.div`
+  display: inline-block;
+  animation: ${slide} 30s infinite linear;
+
+  & > img {
+    height: 600px;
+    object-fit: cover;
+  }
+`;
+
+// ------------------------
+
+export const GridContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 60px;
+  padding: 10px;
+  margin-bottom: 150px;
   display: grid;
-  justify-content: center;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  grid-auto-rows: 350px;
+  gap: 10px;
+  grid-template-areas:
+    "a b b"
+    "a c d";
 
-  @media only screen and (max-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-    padding: 0 10px;
-  }
-
-  @media only screen and (max-width: 850px) {
+  @media only screen and (max-width: 800px) {
     grid-template-columns: repeat(2, 1fr);
-    padding: 0 10px;
+    grid-template-areas:
+      "a b "
+      "a c ";
   }
 
-  @media only screen and (max-width: 500px) {
-    grid-template-columns: repeat(1, 1fr);
-    padding: 0 10px;
+  @media only screen and (max-width: 600px) {
+    display: none;
   }
 `;
-
-export const Item = styled.div`
-  height: 600px;
+export const GirdA = styled.div`
+  grid-area: a;
   position: relative;
-  margin-bottom: 20px;
-  cursor: pointer;
 
   & > img {
     width: 100%;
-    height: 90%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }
+`;
+export const GirdB = styled.div`
+  grid-area: b;
+  position: relative;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }
+`;
+export const GirdC = styled.div`
+  grid-area: c;
+  position: relative;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }
+`;
+
+export const GirdD = styled.div`
+  grid-area: d;
+  position: relative;
+
+  & > img {
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
     object-fit: cover;
   }
 
-  & > div {
-    width: 100%;
-    height: 10%;
-    position: absolute;
-    bottom: 0;
-  }
-
-  @media only screen and (max-width: 1200px) {
-    height: calc(100vw / 3 * 1.5);
-  }
-
-  @media only screen and (max-width: 850px) {
-    grid-template-columns: repeat(2, 1fr);
-    height: calc(100vw / 3 * 2);
-  }
-  @media only screen and (max-width: 500px) {
-    height: calc(100vw / 3 * 4);
+  @media only screen and (max-width: 800px) {
+    display: none;
   }
 `;
 
-//
-export const SearchDiv = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  margin-top: 30px;
-  & > div {
-    width: 300px;
-  }
+/////
+export const TodayDeal = styled.div`
+  width: 100vw;
+  height: 600px;
+  margin-bottom: 150px;
+  background-color: aquamarine;
 `;
 
-export const Search = styled.div`
-  width: 90%;
-  height: 35px;
-  padding-left: 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid ${colors.gray_900};
-  border-radius: 3px;
+////
+export const MasonlyContainer = styled.div`
   margin: 0 auto;
-
-  & > input {
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    background-color: transparent;
-  }
-`;
-
-//
-export const NamePrice = styled.div`
-  padding-top: 5px;
-  & > span {
-    width: 100%;
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    word-break: break-all;
-  }
+  padding: 0;
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 350px);
+  justify-content: center;
+  background-color: #bb6969;
 `;

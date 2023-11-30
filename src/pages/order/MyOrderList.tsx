@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Text from "../../components/common/Text";
 import Button from "../../components/common/Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { colors } from "../../style/theme/colors";
 import * as S from "./MyOrderList.styled";
 import { formatDate } from "../../utility/date";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const MyOrderList = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const MyOrderList = () => {
 
   return (
     <S.Container>
-      <Text size="20" bold="700" marginBottom="30px">
+      <Text size={20} bold={700} marginBottom={30}>
         Order List
       </Text>
 
@@ -34,24 +35,24 @@ const MyOrderList = () => {
               <S.Img src={list.items[0].productId.image} />
               <S.InfoStatusFlex>
                 <div>
-                  <Text size="20" bold="700">
+                  <Text size={20} bold={700}>
                     주문번호: {list.orderNum}
                   </Text>
-                  <Text marginBottom="15px" size="14">
+                  <Text marginBottom={15} size={14}>
                     {formatDate(list.createdAt)}
                   </Text>
 
                   {list.items.length > 1 ? (
-                    <Text size="16" bold="700">
+                    <Text size={16} bold={400}>
                       {list.items[0].productId.name} 외
                       {String(list.items.length - 1)} 건
                     </Text>
                   ) : (
-                    <Text size="16" bold="700">
+                    <Text size={16} bold={400}>
                       {list.items[0].productId.name}
                     </Text>
                   )}
-                  <Text size="13">
+                  <Text size={13}>
                     ₩ {String(list.totalPrice.toLocaleString())}
                   </Text>
                 </div>

@@ -11,13 +11,12 @@ export const createProduct = createAsyncThunk(
   async (
     productData: {
       combined: InitialNewProduct;
-      setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
       navigate: NavigateFunction;
     },
     { dispatch }
   ) => {
     try {
-      const { combined, setIsModalOpen } = productData;
+      const { combined } = productData;
 
       const response = await api.post("/product", combined);
 
@@ -28,8 +27,6 @@ export const createProduct = createAsyncThunk(
       dispatch(
         createToastify({ status: "success", message: "제품이 생성되었습니다." })
       );
-
-      setIsModalOpen(false);
     } catch (error) {
       const { navigate } = productData;
       const typeError = error as ErrorType;
@@ -37,7 +34,6 @@ export const createProduct = createAsyncThunk(
       if ((error as RejectedError).specialError) {
         const errorMessage = (error as RejectedError)?.error;
         handleApiError(errorMessage, dispatch, navigate);
-        // navigate("/login");
         return;
       }
 

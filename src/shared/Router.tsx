@@ -5,7 +5,7 @@ import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
 import Admin from "../pages/admin/Admin";
 import AdminProduct from "../pages/admin/AdminProduct";
-import AdminOrderPage from "../pages/admin/AdminOrderPage";
+import AdminOrderPage from "../pages/admin/AdminOrder";
 import ProductDetail from "../pages/productDetail/ProductDetail";
 import CartDetail from "../pages/cart/CartDetail";
 import Order from "../pages/order/Order";
@@ -13,6 +13,8 @@ import OrderComplete from "../pages/order/OrderComplete";
 import MyOrderList from "../pages/order/MyOrderList";
 import PrivateRoute from "../privateRoute/PrivateRoute";
 import Kakao from "../pages/login/Kakao";
+import AdminCoupon from "../pages/admin/AdminCoupon";
+import Search from "../pages/Search/Search";
 
 const Router = () => {
   return (
@@ -35,14 +37,7 @@ const Router = () => {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/cart"
-          element={
-            // <PrivateRoute>
-            <CartDetail />
-            // </PrivateRoute>
-          }
-        />
+        <Route path="/cart" element={<CartDetail />} />
         <Route
           path="/order/payment"
           element={
@@ -54,11 +49,14 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/auth/kakao" element={<Kakao />} />
+        <Route path="/search" element={<Search />} />
       </Route>
+
       <Route path="/" element={<Home />} />
       <Route element={<Admin />}>
         <Route path="/admin/product" element={<AdminProduct />} />
         <Route path="/admin/order" element={<AdminOrderPage />} />
+        <Route path="/admin/coupon" element={<AdminCoupon />} />
       </Route>
     </Routes>
   );

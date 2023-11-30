@@ -13,13 +13,19 @@ import {
   ShipInfoError,
 } from "../../models/order.types";
 import { createToastify } from "../../redux/modules/toastifySlice";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import * as S from "./Order.styled";
 import { createOrder } from "../../api/createOrder";
+import Select from "../../components/common/Select";
+import { couponCategory } from "../../components/admin/ModalCoupon";
+import styled from "styled-components";
+import { colors } from "../../style/theme/colors";
 
 const Order = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  //modal
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   const { cartLength, cartList } = useSelector(
     (state: RootState) => state.cart
@@ -58,12 +64,6 @@ const Order = () => {
     name: false,
     number: false,
   });
-
-  useEffect(() => {
-    if (!cartList) {
-      navigate("/cart");
-    }
-  }, []);
 
   const handleInputOrder = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -152,6 +152,8 @@ const Order = () => {
     }
   };
 
+  const handleCoupon = () => {};
+
   const handleOrder = () => {
     const { firstName, lastName, contact, address, city, zip } = shipInfo;
 
@@ -234,13 +236,28 @@ const Order = () => {
     return totalPrice;
   };
 
+  const getDiscountedPrice = () => {
+    const totalPrice = cartList?.reduce((accumulator, currentObject) => {
+      return accumulator + currentObject.productId.price * currentObject.qty;
+    }, 0);
+
+    if (totalPrice === undefined) return "";
+    return totalPrice - 4000;
+  };
+
+  useEffect(() => {
+    if (!cartList?.length) {
+      navigate("/cart");
+    }
+  }, []);
+
   return (
     <S.Container>
       <S.OrderInputs>
         <S.Title>배송 주소</S.Title>
         <S.NameFirstName>
           <div>
-            <Text size="15">FirstName</Text>
+            <Text size={15}>FirstName</Text>
             <Input
               id="firstName"
               type="text"
@@ -250,7 +267,7 @@ const Order = () => {
             />
           </div>
           <div>
-            <Text size="15">LastName</Text>
+            <Text size={15}>LastName</Text>
             <Input
               id="lastName"
               type="text"
@@ -261,7 +278,7 @@ const Order = () => {
           </div>
         </S.NameFirstName>
         <S.Contact>
-          <Text size="15">contact</Text>
+          <Text size={15}>contact</Text>
 
           <Input
             id="contact"
@@ -272,7 +289,7 @@ const Order = () => {
           />
         </S.Contact>
         <S.Address>
-          <Text size="15">address</Text>
+          <Text size={15}>address</Text>
 
           <Input
             id="address"
@@ -285,7 +302,7 @@ const Order = () => {
 
         <S.CityZip>
           <div>
-            <Text size="15">city</Text>
+            <Text size={15}>city</Text>
 
             <Input
               id="city"
@@ -296,8 +313,7 @@ const Order = () => {
             />
           </div>
           <div>
-            <Text size="15">zip</Text>
-
+            <Text size={15}>zip</Text>
             <Input
               id="zip"
               type="text"
@@ -307,6 +323,18 @@ const Order = () => {
             />
           </div>
         </S.CityZip>
+
+        {/* <S.Coupon>
+          <Text size={15}>Coupon</Text>
+          <Select
+            list={couponCategory}
+            handleSelect={handleCoupon}
+            isSelectOpen={isCategoryOpen}
+            setSelectOpen={setIsCategoryOpen}
+            defaultOption={"asdad"}
+          />
+        </S.Coupon> */}
+
         <S.CardForm>
           <div>
             <Cards
@@ -319,7 +347,7 @@ const Order = () => {
           </div>
           <div>
             <S.CardNum>
-              <Text size="15">card number</Text>
+              <Text size={15}>card number</Text>
 
               <Input
                 id="number"
@@ -330,7 +358,7 @@ const Order = () => {
               />
             </S.CardNum>
             <S.CardName>
-              <Text size="15">name</Text>
+              <Text size={15}>name</Text>
 
               <Input
                 id="name"
@@ -342,7 +370,7 @@ const Order = () => {
             </S.CardName>
             <S.MmddCvc>
               <div>
-                <Text size="15">expiry</Text>
+                <Text size={15}>expiry</Text>
 
                 <Input
                   id="expiry"
@@ -353,7 +381,7 @@ const Order = () => {
                 />
               </div>
               <div>
-                <Text size="15">cvc</Text>
+                <Text size={15}>cvc</Text>
 
                 <Input
                   id="cvc"
@@ -368,11 +396,24 @@ const Order = () => {
         </S.CardForm>
       </S.OrderInputs>
       <S.PayMents>
+        <Hidden>
+          <S.SpaceFlex>
+            <Text size={13}>총 상품금액</Text>
+            <Text size={13}>{getTotalPrice().toLocaleString()}원</Text>
+          </S.SpaceFlex>
+          <S.SpaceFlex>
+            <Text size={13}>총 할인금액</Text>
+            <Text size={13} marginBottom={20}>
+              - 4,000원
+            </Text>
+          </S.SpaceFlex>
+        </Hidden>
         <S.SpaceFlex>
-          <Text>total ... ({String(cartLength)})</Text>
-          <Text size={"13"}>₩ {getTotalPrice().toLocaleString()}</Text>
+          <Text size={13}>결제금액</Text>
+          <Text size={15} bold={600}>
+            {getDiscountedPrice().toLocaleString()}원
+          </Text>
         </S.SpaceFlex>
-
         <S.OrderBtn onClick={handleOrder}>order</S.OrderBtn>
       </S.PayMents>
     </S.Container>
@@ -380,3 +421,17 @@ const Order = () => {
 };
 
 export default Order;
+
+export const LineThrough = styled.span`
+  text-decoration: line-through;
+`;
+export const DisCountedPrice = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+
+export const Hidden = styled.div`
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
+`;

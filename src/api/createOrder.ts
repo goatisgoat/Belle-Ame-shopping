@@ -36,8 +36,8 @@ export const createOrder = createAsyncThunk(
       );
 
       dispatch(deleteCartItems());
-
       dispatch(getOrderSucessString(response.data.orderNum));
+
       navigate("/order/sucess");
     } catch (error) {
       const { navigate } = orderData;

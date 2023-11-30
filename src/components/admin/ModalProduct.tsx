@@ -37,7 +37,7 @@ const ModalProduct = ({
   return (
     <Modal isOpen={isModalOpen} setSelectOpen={setIsModalOpen}>
       <S.ModalTitle>
-        <Text size="20" bold="700" color={colors.gray_400} marginBottom="15px">
+        <Text size={20} bold={500} color={colors.gray_400} marginBottom={15}>
           Create Product
         </Text>
         <button

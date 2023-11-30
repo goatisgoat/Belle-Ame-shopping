@@ -1,161 +1,175 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import * as S from "./Home.styled";
-import { AppDispatch, RootState } from "../../redux/config/ConfigStore";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { getProductHome } from "../../api/getProductHome";
-import { deleteProductListMain } from "../../redux/modules/productSlice";
+import { useNavigate } from "react-router-dom";
 import Text from "../../components/common/Text";
-import { Product } from "../../models/product.type";
 import Navbar from "../../components/common/Navbar";
 import Banner from "../../components/home/Banner";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import {
+  autoInfinitSlideObj,
+  girdA,
+  girdB,
+  girdC,
+  girdD,
+  homeCategory,
+} from "../../utility/imgConst";
+import { colors } from "../../style/theme/colors";
+import MasonryPin from "../../components/home/MasonryPin";
+import ParticleBg from "../../components/home/ParticleBg";
+import { useEffect, useState } from "react";
+import { Product } from "../../models/product.type";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/config/ConfigStore";
+import { getProductHome } from "../../api/getProductHome";
+
+const settings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 5000,
+};
 
 const Home = () => {
+  const [sliceProduct, setSliceProduct] = useState<Product[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { isLoading } = useSelector((state: RootState) => state.product);
 
-  const [query, setQuery] = useSearchParams();
-  const [keyWord, setKeyWord] = useState("");
-  const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState<{
-    [key: string]: string;
-  }>({
-    name: query.get("name") || "",
-  });
-
-  const [productsList, setProductsList] = useState<Product[] | []>([]);
-  const [totalPageNum, setTotalPageNum] = useState<number | null>(null);
-
-  const observer = useRef<IntersectionObserver | null>(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
-
-  const onCheckEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      if (e.currentTarget.value === "" && !searchQuery?.name) {
-        return;
-      }
-
-      if (e.currentTarget.value === searchQuery?.name) {
-        return;
-      }
-      return setSearchQuery({
-        ...searchQuery,
-        name: e.currentTarget.value,
-      });
-    }
+  const handleCategory = (name: string) => {
+    navigate(`/search?category=${name}`);
   };
-
-  useEffect(() => {
-    if (searchQuery?.name === "") {
-      delete searchQuery.name;
-    }
-
-    setProductsList([]);
-    setTotalPageNum(null);
-    setPage(1);
-    observer.current = null;
-    setHasNextPage(true);
-
-    const params = new URLSearchParams(searchQuery).toString();
-    navigate(`?${params}`);
-  }, [searchQuery]);
 
   useEffect(() => {
     dispatch(
       getProductHome({
-        ...searchQuery,
-        page: "1",
-        setProductsList,
-        setTotalPageNum,
+        page: 1,
+        setSliceProduct,
       })
     );
-    setPage((pre) => pre + 1);
-  }, [query]);
+  }, []);
 
-  const fetchNextPage = () => {
-    if (totalPageNum === page - 1) {
-      return setHasNextPage(false);
-    }
-    dispatch(
-      getProductHome({
-        ...searchQuery,
-        page: page.toString(),
-        setProductsList,
-        setTotalPageNum,
-      })
-    );
-    setPage(page + 1);
-  };
-
-  const LastelementRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (isLoading) return null;
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries, _) => {
-        if (entries[0].isIntersecting) {
-          if (isLoading && totalPageNum === null) return null;
-          hasNextPage && fetchNextPage();
-        }
-      });
-
-      if (node) observer.current.observe(node);
-    },
-    [isLoading, totalPageNum]
-  );
-
-  const handelDetail = (id: string) => {
-    dispatch(deleteProductListMain());
+  const handleDetail = (id: string) => {
     navigate(`/${id}`);
   };
 
   return (
-    <S.MainContainer>
-      <Navbar />
-      <Banner />
+    <S.Container>
+      <S.Section>
+        <Navbar />
+        <Banner />
+      </S.Section>
 
-      <S.SearchDiv>
-        <div>
-          <S.Search>
-            <input
-              type="search"
-              placeholder="Search"
-              onKeyDown={onCheckEnter}
-              onChange={(e) => setKeyWord(e.target.value)}
-              value={keyWord}
-            />
-          </S.Search>
-        </div>
-      </S.SearchDiv>
-      <S.Items>
-        {productsList.map((p, i) =>
-          productsList.length - 1 !== i ? (
-            <S.Item key={i} onClick={() => handelDetail(p._id)}>
-              <img src={p.image} loading="lazy" />
-              <S.NamePrice>
-                <Text size="18" bold={"700"}>
-                  {p.name}
+      <S.CategoryContainer>
+        <S.CategoryTitle>
+          <Text size={20}>Category</Text>
+          <Text
+            size={13}
+            color={colors.basicWithBrown}
+            onClick={() => navigate("/search")}
+          >
+            See All
+          </Text>
+        </S.CategoryTitle>
+        <S.CategorysImgDiv>
+          {homeCategory.map((c, i) => {
+            return (
+              <S.FLexColumn key={i} onClick={() => handleCategory(c.name)}>
+                <S.CategorysImg src={c.url} />
+                <span>{c.label}</span>
+              </S.FLexColumn>
+            );
+          })}
+        </S.CategorysImgDiv>
+      </S.CategoryContainer>
+
+      <S.BestItemsContainer>
+        <S.BestItemTitle>
+          <Text size={20}>New Items</Text>
+        </S.BestItemTitle>
+
+        <Slider {...settings}>
+          {sliceProduct.map((product, i) => (
+            <S.BestItemDiv key={i} onClick={() => handleDetail(product._id)}>
+              <S.ItemImg
+                src={product.image}
+                alt={`Slide ${product.name}`}
+                style={{ width: "100%", objectFit: "cover" }}
+              />
+              <S.ItemName>
+                <Text size={14} bold={500}>
+                  {product.name}
                 </Text>
-                <Text size="13">₩ {String(p.price.toLocaleString())}</Text>
-              </S.NamePrice>
-            </S.Item>
-          ) : (
-            <S.Item
-              key={i}
-              ref={LastelementRef}
-              onClick={() => handelDetail(p._id)}
-            >
-              <img src={p.image} />
-              <S.NamePrice>
-                <Text bold={"700"}>{p.name}</Text>
-                <Text size="13">₩ {String(p.price.toLocaleString())}</Text>
-              </S.NamePrice>
-            </S.Item>
-          )
-        )}
-      </S.Items>
-    </S.MainContainer>
+              </S.ItemName>
+            </S.BestItemDiv>
+          ))}
+        </Slider>
+      </S.BestItemsContainer>
+
+      <S.GridContainer>
+        <S.GirdA>
+          <img src={girdA} />
+        </S.GirdA>
+        <S.GirdB>
+          <img src={girdB} />
+        </S.GirdB>
+        <S.GirdC>
+          <img src={girdC} />
+        </S.GirdC>
+        <S.GirdD>
+          <img src={girdD} />
+        </S.GirdD>
+      </S.GridContainer>
+
+      <S.AutoInfinitSlide>
+        <S.InfinitImgDiv>
+          {autoInfinitSlideObj.map((slide, i) => {
+            return <img src={slide.img} alt={slide.description} key={i} />;
+          })}
+        </S.InfinitImgDiv>
+        <S.InfinitImgDiv>
+          {autoInfinitSlideObj.map((slide, i) => {
+            return <img src={slide.img} alt={slide.description} key={i} />;
+          })}
+        </S.InfinitImgDiv>
+        <ParticleBg />
+      </S.AutoInfinitSlide>
+
+      {/* <Section>
+        <TodayDeal>오늘만 특가!</TodayDeal>
+      </Section>
+      <Section>
+        <div>기획전</div>
+        <MasonlyContainer>
+          <MasonryPin
+            img="http://thumbnail.10x10.co.kr/webimage/image/basic600/117/B001178135.jpg?cmd=thumb&w=500&h=500&fit=true&ws=false"
+            num={1}
+          />
+          <MasonryPin
+            img="https://img.ssfshop.com/cmd/LB_750x1000/src/https://img.ssfshop.com/goods/WMBR/23/06/01/GM0023060163787_0_THNAIL_ORGINL_20230608142046109.jpg"
+            num={1}
+          />
+          <MasonryPin
+            img="http://thumbnail.10x10.co.kr/webimage/image/basic600/117/B001178135.jpg?cmd=thumb&w=500&h=500&fit=true&ws=false"
+            num={1}
+          />
+          <MasonryPin
+            img="http://thumbnail.10x10.co.kr/webimage/image/basic600/117/B001178135.jpg?cmd=thumb&w=500&h=500&fit=true&ws=false"
+            num={1}
+          />
+          <MasonryPin
+            img="https://img.ssfshop.com/cmd/LB_750x1000/src/https://img.ssfshop.com/goods/WMBR/23/06/01/GM0023060163787_0_THNAIL_ORGINL_20230608142046109.jpg"
+            num={1}
+          />
+          <MasonryPin
+            img="http://thumbnail.10x10.co.kr/webimage/image/basic600/117/B001178135.jpg?cmd=thumb&w=500&h=500&fit=true&ws=false"
+            num={1}
+          />
+        </MasonlyContainer>
+      </Section> */}
+    </S.Container>
   );
 };
 

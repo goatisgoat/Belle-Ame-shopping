@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 type Props = {
-  bold: boolean | string;
+  bold: number;
   color: string;
-  size: string;
+  size: number;
   children: string | string[];
-  marginBottom: string | boolean;
-  marginRight: string | boolean;
+  marginBottom: number;
+  marginRight: number;
+  onClick?: () => void;
 };
 
 const Text = ({
@@ -16,6 +17,7 @@ const Text = ({
   children,
   marginBottom,
   marginRight,
+  onClick,
 }: Props) => {
   return (
     <Span
@@ -24,6 +26,7 @@ const Text = ({
       $size={size}
       $marginBottom={marginBottom}
       $marginRight={marginRight}
+      onClick={onClick}
     >
       {children}
     </Span>
@@ -33,27 +36,25 @@ const Text = ({
 export default Text;
 
 Text.defaultProps = {
-  bold: false,
+  bold: 400,
   color: "#222831",
   size: "13px",
-  marginBottom: false,
-  marginRight: false,
+  marginBottom: 0,
+  marginRight: 0,
 };
 
-export const Span = styled.span<{
-  $bold: string | boolean;
+export const Span = styled.p<{
+  $bold: number;
   $color: string;
-  $size: string;
-  $marginBottom: string | boolean;
-  $marginRight: string | boolean;
+  $size: number;
+  $marginBottom: number;
+  $marginRight: number;
 }>`
-  display: flex;
-  align-items: center;
   color: ${(props) => props.$color};
   font-size: ${(props) => `${props.$size}px`};
+
   font-weight: ${(props) => (props.$bold ? `${props.$bold}` : "400")};
-  ${(props) =>
-    props.$marginBottom ? `margin-bottom: ${props.$marginBottom};` : ""};
-  ${(props) =>
-    props.$marginRight ? `margin-right: ${props.$marginRight};` : ""};
+
+  margin-bottom: ${(props) => `${props.$marginBottom}px`};
+  margin-right: ${(props) => `${props.$marginRight}px`};
 `;

@@ -25,6 +25,8 @@ export const getCartLength = createAsyncThunk(
       const { navigate } = cartData;
       const typeError = error as ErrorType;
 
+      dispatch(getCartLengthFc(0));
+
       if ((error as RejectedError).specialError) {
         const errorMessage = (error as RejectedError)?.error;
         handleApiError(errorMessage, dispatch, navigate);

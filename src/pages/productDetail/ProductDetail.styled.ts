@@ -8,7 +8,7 @@ export const Container = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 780px) {
     grid-template-columns: repeat(1, 1fr);
     gap: 0px;
   }
@@ -30,7 +30,7 @@ export const ImgDiv = styled.div`
     object-fit: cover;
   }
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 780px) {
     justify-content: center;
     & > div {
       width: 70%;
@@ -50,7 +50,7 @@ export const Info = styled.div`
     height: 80%;
   }
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 780px) {
     & > div {
       width: 70%;
       height: 90%;
