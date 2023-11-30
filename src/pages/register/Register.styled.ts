@@ -26,22 +26,45 @@ export const InputWrap = styled.div`
   height: 60px;
   margin: 0 auto;
   margin-bottom: 20px;
-  border: 1px solid ${colors.inputBorder};
-  border-radius: 5px;
-
-  &:focus-within {
-    border: 2px solid ${colors.inputFocus};
-  }
+  position: relative;
 
   & > input {
     width: 100%;
     height: 100%;
     padding: 0 10px;
-    border: none;
     outline: none;
+    border: none;
+    color: ${colors.black_200};
+
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 400;
     background-color: inherit;
+    border: 1px solid ${colors.inputBorder};
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+
+  & > input:focus {
+    border: 2px solid ${colors.inputFocus};
+  }
+
+  & > span {
+    padding: 0 10px;
+    position: absolute;
+    left: 10px;
+    top: 18px;
+    font-size: 15px;
+    color: ${colors.black_200};
+    transition: 0.3s;
+    z-index: -1;
+  }
+
+  & > input:valid ~ span,
+  & > input:focus ~ span {
+    background-color: #faf9f8;
+    transform: translateX(10px) translateY(-28px);
+    font-size: 13px;
+    z-index: 0;
   }
 `;
 

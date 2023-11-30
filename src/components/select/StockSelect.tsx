@@ -59,7 +59,7 @@ export default StockSelect;
 
 export const SelectTitle = styled.div`
   width: 100%;
-  height: 35px;
+  height: 45px;
   padding: 0 10px;
   border: 1px solid ${colors.inputBorder};
   border-radius: 3px;

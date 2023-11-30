@@ -37,7 +37,7 @@ const ModalProduct = ({
   return (
     <Modal isOpen={isModalOpen} setSelectOpen={setIsModalOpen}>
       <S.ModalTitle>
-        <Text size={20} bold={500} color={colors.gray_400} marginBottom={15}>
+        <Text size={20} bold={500} color={colors.gray_400}>
           Create Product
         </Text>
         <button
@@ -52,61 +52,52 @@ const ModalProduct = ({
 
       <S.SkuName>
         <div>
-          <S.Flex>
-            <Text color={colors.gray_300}>Sku</Text>
-            {errors.sku ? (
-              <ErrorOutlineIcon fontSize="small" style={{ color: "#f86c6c" }} />
-            ) : null}
-          </S.Flex>
           <Input
             id="sku"
             type="text"
+            placeholder="Sku"
             value={newProduct.sku}
             onChange={handleNewProduct}
+            isError={errors.sku}
+            spanColor={colors.white}
           />
         </div>
         <div>
-          <S.Flex>
-            <Text color={colors.gray_300}>Name</Text>
-            {errors.name ? (
-              <ErrorOutlineIcon fontSize="small" style={{ color: "#f86c6c" }} />
-            ) : null}
-          </S.Flex>
           <Input
             id="name"
             type="text"
+            placeholder="Name"
             value={newProduct.name}
             onChange={handleNewProduct}
+            isError={errors.name}
+            spanColor={colors.white}
           />
         </div>
       </S.SkuName>
-      <S.Description>
-        <S.Flex>
-          <Text color={colors.gray_300}>Description</Text>
-          {errors.description ? (
-            <ErrorOutlineIcon fontSize="small" style={{ color: "#f86c6c" }} />
-          ) : null}
-        </S.Flex>
+      <S.Description $isError={errors.description}>
         <S.Textarea
           id="description"
           value={newProduct.description}
           onChange={handleNewProduct}
         />
+        <span>Description</span>
       </S.Description>
 
       <S.StokeDiv>
-        <S.Flex>
-          <Text color={colors.gray_300}>Stoke</Text>
-          {errors.stock ? (
-            <ErrorOutlineIcon fontSize="small" style={{ color: "#f86c6c" }} />
-          ) : null}
-        </S.Flex>
+        <Text
+          size={15}
+          color={errors.stock ? "#f86c6c" : colors.gray_300}
+          marginRight={10}
+        >
+          Stoke
+        </Text>
+
         <Button
           Fontcolor={colors.basicWithBrown}
-          background={colors.basic}
-          borderRadius="3"
-          paddingTop="8"
-          paddingSide="10"
+          background={colors.antiquewhite}
+          borderRadius="20"
+          paddingTop="10"
+          paddingSide="15"
           onClick={handelAddStock}
         >
           Add
@@ -135,15 +126,11 @@ const ModalProduct = ({
 
       <S.SelectDiv>
         <div>
-          <S.Flex>
-            <Text color={colors.gray_300}>Price</Text>
-            {errors.price ? (
-              <ErrorOutlineIcon fontSize="small" style={{ color: "#f86c6c" }} />
-            ) : null}
-          </S.Flex>
           <Input
             id="price"
             type="text"
+            placeholder="Price"
+            spanColor={colors.white}
             value={
               newProduct.price
                 .toString()
@@ -152,50 +139,37 @@ const ModalProduct = ({
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ""
             }
             onChange={handleNewProduct}
+            isError={errors.price}
           />
         </div>
 
         <div>
-          <S.Flex>
-            <Text color={colors.gray_300}>Category</Text>
-            <LibraryAddIcon
-              fontSize="small"
-              style={{
-                color: `${errors.category ? "#f86c6c" : colors.gray_300}`,
-              }}
-            />
-          </S.Flex>
-
           <MultiSelect
             list={Category}
             handleSelect={handleCategory}
             isSelectOpen={isCategoryOpen}
             setSelectOpen={setIsCategoryOpen}
             selectedList={newProduct.category}
+            isError={errors.category}
           />
         </div>
 
         <div>
-          <S.Flex>
-            <Text color={colors.gray_300}>Status</Text>
-            {errors.status ? (
-              <ErrorOutlineIcon fontSize="small" style={{ color: "#f86c6c" }} />
-            ) : null}
-          </S.Flex>
-
           <Select
             list={productStatus}
             handleSelect={handleStatus}
             isSelectOpen={isStatusOpen}
             setSelectOpen={setIsStatusOpen}
             defaultOption={newProduct.status}
+            spanString="Status"
+            isError={errors.status}
           />
         </div>
       </S.SelectDiv>
       <Button
         Fontcolor={colors.basicWithBrown}
-        background={colors.basic}
-        borderRadius="3"
+        background={colors.antiquewhite}
+        borderRadius="20"
         paddingTop="10"
         paddingSide="15"
         onClick={handleCreate}

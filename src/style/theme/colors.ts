@@ -1,4 +1,5 @@
 export const colors = {
+  html_background: "#faf9f8",
   back_ground: "#323232",
   black: "#000",
   black_200: "#818181",

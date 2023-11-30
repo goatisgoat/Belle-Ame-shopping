@@ -62,20 +62,20 @@ const Login = () => {
       <S.Form onSubmit={handleLogin}>
         <S.InputWrap>
           <input
-            type="email"
+            type="text"
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            autoFocus
             required
+            autoFocus
           />
+          <span>Email</span>
         </S.InputWrap>
         <S.InputWrap>
           <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
             required
           />
+          <span>Password</span>
         </S.InputWrap>
         <S.LoginBtn>로그인</S.LoginBtn>
       </S.Form>

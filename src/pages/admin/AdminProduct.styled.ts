@@ -43,8 +43,10 @@ export const AdminContanier = styled.div`
 `;
 
 export const ModalTitle = styled.div`
+  margin-bottom: 25px;
   display: flex;
   justify-content: space-between;
+  font-family: "Patrick Hand", "Noto Sans KR";
 `;
 
 export const SkuName = styled.div`
@@ -58,29 +60,53 @@ export const SkuName = styled.div`
   }
 `;
 
-export const Description = styled.div`
-  margin-bottom: 5px;
+export const Description = styled.div<{ $isError: boolean }>`
+  margin: 30px 0px;
+  position: relative;
+
+  & > span {
+    padding: 0 5px;
+    position: absolute;
+    left: 15px;
+    top: -10px;
+    font-size: 13px;
+    color: ${colors.basicWithBrown};
+    background-color: ${colors.white};
+  }
+
+  & > textarea {
+    border-color: ${(props) =>
+      props.$isError === true ? "#f86c6c" : `${colors.inputBorder}`};
+  }
+`;
+
+export const Textarea = styled.textarea`
+  width: 100%;
+  height: 100px;
+  padding: 5px;
+  border: 1px solid ${colors.inputBorder};
+  border-radius: 3px;
+  color: ${colors.black_200};
+  resize: none;
+  outline: none;
+  transition: 0.3s;
+
+  &:focus-within {
+    border: 2px solid ${colors.inputFocus};
+  }
 `;
 
 export const StokeDiv = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-
-  & > div {
-    margin-right: 10px;
-  }
 `;
 
 export const ImgDiv = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
   margin-top: 20px;
-
-  & > div {
-    margin-right: 10px;
-  }
 `;
 
 export const ProductImg = styled.div`
@@ -102,21 +128,6 @@ export const SelectDiv = styled.div`
 
   @media only screen and (max-width: 500px) {
     grid-template-columns: repeat(1, 1fr);
-  }
-`;
-
-export const Textarea = styled.textarea`
-  width: 100%;
-  height: 100px;
-  padding: 5px;
-  border: 1px solid ${colors.inputBorder};
-  border-radius: 3px;
-  color: ${colors.black_200};
-  resize: none;
-  outline: none;
-  margin-bottom: 15px;
-  &:focus-within {
-    border: 2px solid ${colors.inputFocus};
   }
 `;
 
