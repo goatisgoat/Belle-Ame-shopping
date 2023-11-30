@@ -22,6 +22,7 @@ import { Product } from "../../models/product.type";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/config/ConfigStore";
 import { getProductHome } from "../../api/getProductHome";
+import styled from "styled-components";
 
 const settings = {
   dots: false,
@@ -108,6 +109,7 @@ const Home = () => {
         </Slider>
       </S.BestItemsContainer>
 
+      <SeparateLine></SeparateLine>
       <S.GridContainer>
         <S.GirdA>
           <img src={girdA} />
@@ -174,3 +176,17 @@ const Home = () => {
 };
 
 export default Home;
+
+export const SeparateLine = styled.div`
+  width: 100%;
+  height: 1.5px;
+  margin-bottom: 180px;
+  background-color: #2f272332;
+`;
+
+export const DDDD = styled.div`
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  background-color: #2f2723;
+`;

@@ -67,7 +67,11 @@ const CartDetail = () => {
   return (
     <S.Container>
       <S.CartItems>
-        <S.Title>My Cart</S.Title>
+        <S.Title>
+          <Text size={25} bold={700}>
+            My Cart
+          </Text>
+        </S.Title>
         <S.HomeIconBtn onClick={() => navigate("/")}>
           <HomeIcon style={{ cursor: "pointer" }} />
         </S.HomeIconBtn>
@@ -84,15 +88,23 @@ const CartDetail = () => {
               <S.Flex>
                 <S.ProductImg src={c.productId.image} />
                 <S.NameSizeColumn>
-                  <Text size={20} bold={700}>
+                  <Text size={18} bold={600}>
                     {c.productId.name}
                   </Text>
                   <Text size={13}>Size: {c.size}</Text>
-                  <S.MobilePrice>
-                    <Text size={12}>
-                      ₩ {c.productId.price.toLocaleString()}
-                    </Text>
-                  </S.MobilePrice>
+                  <Text size={12}>
+                    Price : {c.productId.price.toLocaleString()} 원
+                  </Text>
+                  <S.MobileQty $qty={c.qty}>
+                    <button
+                      disabled={c.qty === 1}
+                      onClick={() => handleQty(c._id, "minus")}
+                    >
+                      -
+                    </button>
+                    <S.QtyNumDiv>{c.qty}</S.QtyNumDiv>
+                    <button onClick={() => handleQty(c._id, "plus")}>+</button>
+                  </S.MobileQty>
                 </S.NameSizeColumn>
               </S.Flex>
 
@@ -107,17 +119,14 @@ const CartDetail = () => {
                 <button onClick={() => handleQty(c._id, "plus")}>+</button>
               </S.Qty>
 
-              <S.Price>
-                <Text size={13}>₩ {c.productId.price.toLocaleString()}</Text>
-              </S.Price>
               <S.DeleteBtn onClick={() => handleDelete(c._id)}>-</S.DeleteBtn>
             </S.ItemDiv>
           ))}
       </S.CartItems>
       <S.Order>
         <S.List>
-          <Text>total ... ({String(cartLength) || ""})</Text>
-          <Text size={13}>₩ {getTotalPrice()}</Text>
+          <Text size={13}>TOTAL - ({String(cartLength) || ""})</Text>
+          <Text size={13}>{getTotalPrice()} 원</Text>
         </S.List>
 
         <S.OrderBtn onClick={handleOrder} disabled={cartLength === 0}>

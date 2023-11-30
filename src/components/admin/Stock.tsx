@@ -88,7 +88,8 @@ const Stock = ({ indexNum, stock, stokes, setStokes, updateError }: Props) => {
             .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ""
         }
         onChange={handleQty}
-        placeholder="Number of Stock"
+        placeholder=""
+        spanColor={colors.white}
       />
 
       <DelectStock onClick={deleteStock}>
@@ -106,6 +107,7 @@ export const StockContainer = styled.div`
   display: grid;
   grid-template-columns: 20% 70% 5%;
   gap: 10px;
+  margin-bottom: 10px;
 `;
 
 export const InputDiv = styled.div`

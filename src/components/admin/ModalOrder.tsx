@@ -78,14 +78,17 @@ const ModalOrder = ({
   };
   return (
     <Modal isOpen={isModalOpen} setSelectOpen={setIsModalOpen}>
-      <Text size={18} bold={700}>
-        Order Detail
-      </Text>
+      <Title>
+        <Text size={18} bold={700}>
+          Order Detail
+        </Text>
+      </Title>
 
       <UserInfo>
         <Text size={15}>예약번호 : {orderModalInfo?.orderNum || ""}</Text>
         <Text size={15}>
-          주문날짜 :{orderModalInfo ? formatDate(orderModalInfo.createdAt) : ""}
+          주문날짜 :{" "}
+          {orderModalInfo ? formatDate(orderModalInfo.createdAt) : ""}
         </Text>
         <Text size={15}>이메일 : {orderModalInfo?.userId.email || ""}</Text>
         <Text size={15}>주소 : {orderModalInfo?.shipTo.address || ""}</Text>
@@ -146,13 +149,15 @@ const ModalOrder = ({
         isSelectOpen={isSelectOpen}
         setSelectOpen={setIsSelectOpen}
         defaultOption={updateStatus || ""}
+        isError={false}
       />
       <EditBtnDiv>
         <Button
-          paddingSide="15"
-          borderRadius="20"
-          background={colors.preparing}
           Fontcolor={colors.basicWithBrown}
+          background={colors.antiquewhite}
+          borderRadius="20"
+          paddingTop="10"
+          paddingSide="15"
           onClick={handleUpdateStatus}
         >
           Edit
@@ -166,6 +171,10 @@ const ModalOrder = ({
 };
 
 export default ModalOrder;
+
+export const Title = styled.div`
+  font-family: "Patrick Hand", "Noto Sans KR";
+`;
 
 export const Xbtn = styled.button`
   position: absolute;

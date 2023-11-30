@@ -23,7 +23,8 @@ export const Section = styled.section`
 ///
 export const CategoryContainer = styled.div`
   max-width: 1000px;
-  margin: 100px auto;
+  margin: 50px auto;
+  margin-bottom: 80px;
   padding: 20px;
   position: relative;
 
@@ -103,12 +104,16 @@ export const CategorysImg = styled.img`
 
 ///Slider
 export const BestItemsContainer = styled.div`
-  display: none;
-  width: 260%;
-  margin-bottom: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 150px;
 
-  @media only screen and (max-width: 600px) {
-    display: block;
+  @media only screen and (max-width: 800px) {
+    width: 140%;
+  }
+
+  @media only screen and (max-width: 550px) {
+    width: 260%;
   }
 `;
 
@@ -123,14 +128,14 @@ export const BestItemDiv = styled.div`
   padding: 10px;
   cursor: pointer;
 
-  @media only screen and (max-width: 600px) {
-    max-height: 700px;
+  @media only screen and (max-width: 1200px) {
+    max-height: 500px;
   }
 
-  @media only screen and (max-width: 550px) {
-    max-height: 600px;
+  @media only screen and (max-width: 650px) {
+    max-height: 400px;
   }
-  @media only screen and (max-width: 450px) {
+  @media only screen and (max-width: 550px) {
     max-height: 500px;
   }
 `;

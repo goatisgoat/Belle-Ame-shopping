@@ -9,6 +9,7 @@ type props = {
   setSelectOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isSelectOpen: boolean;
   selectedList: string[];
+  isError: boolean;
 };
 
 const MultiSelect = ({
@@ -17,6 +18,7 @@ const MultiSelect = ({
   setSelectOpen,
   selectedList,
   isSelectOpen,
+  isError,
 }: props) => {
   const dropBoxRef = useRef<HTMLDivElement>(null);
   const dropBox = dropBoxRef.current?.getBoundingClientRect();
@@ -26,7 +28,9 @@ const MultiSelect = ({
   const width = dropBox?.width;
 
   return (
-    <SelectTitle ref={dropBoxRef}>
+    <SelectTitle ref={dropBoxRef} $isError={isError}>
+      <span>Category</span>
+
       <div onClick={() => setSelectOpen((pre) => !pre)}>
         {selectedList[0]
           ? selectedList[0] + ` ... (${selectedList.length})`
@@ -58,15 +62,31 @@ const MultiSelect = ({
 
 export default MultiSelect;
 
-export const SelectTitle = styled.div`
+export const SelectTitle = styled.div<{ $isError: boolean }>`
   width: 100%;
-  height: 35px;
+  height: 45px;
   padding: 0 10px;
   border: 1px solid ${colors.inputBorder};
+  border-color: ${(props) =>
+    props.$isError === true ? "#f86c6c" : `${colors.inputBorder}`};
   border-radius: 3px;
   color: ${colors.black_200};
   line-height: 35px;
   cursor: pointer;
+  position: relative;
+  z-index: 1;
+
+  & > span {
+    padding: 0 5px;
+    position: absolute;
+    left: 8px;
+    top: -18px;
+    font-size: 13px;
+    color: ${colors.basicWithBrown};
+    background-color: ${colors.white};
+    transition: 0.3s;
+    z-index: -1;
+  }
 `;
 
 export const SelectUl = styled.ul<{}>`

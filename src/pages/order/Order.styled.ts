@@ -27,6 +27,7 @@ export const Title = styled.div`
   text-align: center;
   font-size: 25px;
   font-weight: 700;
+  font-family: "Patrick Hand", "Noto Sans KR";
 `;
 
 export const PayMents = styled.div`
@@ -70,22 +71,22 @@ export const NameFirstName = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 export const Contact = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 export const Address = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 export const CityZip = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 `;
 
 export const Coupon = styled.div`
@@ -112,9 +113,9 @@ export const MmddCvc = styled.div`
 `;
 
 export const CardNum = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 export const CardName = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;

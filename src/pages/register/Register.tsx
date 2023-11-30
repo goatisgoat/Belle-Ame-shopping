@@ -72,28 +72,28 @@ const Register = () => {
         <S.InputWrap>
           <input
             type="text"
-            placeholder="Name"
             onChange={(e) => setName(e.target.value)}
             autoFocus
             required
           />
+          <span>Name</span>
         </S.InputWrap>
 
         <S.InputWrap>
           <input
-            type="email"
-            placeholder="Email"
+            type="text"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <span>Email</span>
         </S.InputWrap>
         <S.InputWrap>
           <input
             type="password"
-            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <span>Password</span>
         </S.InputWrap>
 
         <S.CheckWrap>

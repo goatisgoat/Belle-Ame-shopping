@@ -3,7 +3,7 @@ import { colors } from "../../style/theme/colors";
 
 export const Container = styled.div`
   max-width: 1200px;
-  height: calc(100vh - 35px - 60px);
+  height: 100vh;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 70% 30%;
@@ -17,8 +17,7 @@ export const CartItems = styled.div`
   overflow-y: scroll;
   position: relative;
   @media only screen and (max-width: 800px) {
-    min-height: calc(100vh - 96px);
-    max-height: calc(100vh - 96px);
+    height: calc(100vh - 89.2px);
   }
 `;
 
@@ -27,19 +26,28 @@ export const Title = styled.div`
   text-align: center;
   font-size: 25px;
   font-weight: 700;
+  font-family: "Patrick Hand", "Noto Sans KR";
 `;
 
 export const HomeIconBtn = styled.div`
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 28px;
+  left: 30px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.white};
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 `;
 
 export const ItemDiv = styled.div`
   margin: 0 10px;
   padding: 20px;
   display: grid;
-  grid-template-columns: 60% 20% 20%;
+  grid-template-columns: 80% 20%;
   border-bottom: 1px solid #adadad91;
   position: relative;
 
@@ -64,6 +72,12 @@ export const NameSizeColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  @media only screen and (max-width: 430px) {
+    & > p:first-child {
+      font-size: 17px;
+    }
+  }
 `;
 
 export const Qty = styled.div<{ $qty: number }>`
@@ -80,6 +94,32 @@ export const Qty = styled.div<{ $qty: number }>`
   & > button:disabled {
     color: ${(props) => (props.$qty ? colors.gray_100 : colors.black)};
   }
+
+  @media only screen and (max-width: 430px) {
+    display: none;
+  }
+`;
+
+export const MobileQty = styled.div<{ $qty: number }>`
+  display: none;
+
+  @media only screen and (max-width: 430px) {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 15px;
+    left: -10px;
+
+    & > button {
+      margin: 0 10px;
+      flex-shrink: 0;
+      font-size: 15px;
+    }
+
+    & > button:disabled {
+      color: ${(props) => (props.$qty ? colors.gray_100 : colors.black)};
+    }
+  }
 `;
 
 export const QtyNumDiv = styled.div`
@@ -93,24 +133,6 @@ export const QtyNumDiv = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-`;
-
-export const Price = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media only screen and (max-width: 800px) {
-    display: none;
-  }
-`;
-
-export const MobilePrice = styled.span`
-  display: none;
-
-  @media only screen and (max-width: 800px) {
-    display: block;
-  }
 `;
 
 export const DeleteBtn = styled.button`

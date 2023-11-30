@@ -254,72 +254,75 @@ const Order = () => {
   return (
     <S.Container>
       <S.OrderInputs>
-        <S.Title>배송 주소</S.Title>
+        <S.Title>Order Form</S.Title>
         <S.NameFirstName>
           <div>
-            <Text size={15}>FirstName</Text>
             <Input
               id="firstName"
               type="text"
+              placeholder="FirstName"
               value={shipInfo.firstName}
               onChange={handleInputOrder}
               isError={shipInfoError.firstName}
+              spanColor={colors.html_background}
             />
           </div>
           <div>
-            <Text size={15}>LastName</Text>
             <Input
               id="lastName"
+              placeholder="LastName"
               type="text"
               value={shipInfo.lastName}
               onChange={handleInputOrder}
               isError={shipInfoError.lastName}
+              spanColor={colors.html_background}
             />
           </div>
         </S.NameFirstName>
         <S.Contact>
-          <Text size={15}>contact</Text>
-
           <Input
             id="contact"
             type="text"
+            placeholder="Contact"
             value={shipInfo.contact}
             onChange={handleInputOrder}
             isError={shipInfoError.contact}
+            spanColor={colors.html_background}
           />
         </S.Contact>
         <S.Address>
-          <Text size={15}>address</Text>
-
           <Input
             id="address"
             type="text"
+            placeholder="Address"
             value={shipInfo.address}
             onChange={handleInputOrder}
             isError={shipInfoError.address}
+            spanColor={colors.html_background}
           />
         </S.Address>
 
         <S.CityZip>
           <div>
-            <Text size={15}>city</Text>
-
             <Input
               id="city"
               type="text"
+              placeholder="City"
               value={shipInfo.city}
               onChange={handleInputOrder}
               isError={shipInfoError.city}
+              spanColor={colors.html_background}
             />
           </div>
           <div>
-            <Text size={15}>zip</Text>
             <Input
               id="zip"
               type="text"
+              placeholder="Zip"
               value={shipInfo.zip}
               onChange={handleInputOrder}
               isError={shipInfoError.zip}
+              spanColor={colors.html_background}
             />
           </div>
         </S.CityZip>
@@ -347,48 +350,48 @@ const Order = () => {
           </div>
           <div>
             <S.CardNum>
-              <Text size={15}>card number</Text>
-
               <Input
                 id="number"
                 type="number"
+                placeholder="Card-Number"
                 value={cardValue.number}
                 onChange={handleCardInput}
                 isError={cardValueError.number}
+                spanColor={colors.html_background}
               />
             </S.CardNum>
             <S.CardName>
-              <Text size={15}>name</Text>
-
               <Input
                 id="name"
                 type="text"
+                placeholder="Name"
                 value={cardValue.name}
                 onChange={handleCardInput}
                 isError={cardValueError.name}
+                spanColor={colors.html_background}
               />
             </S.CardName>
             <S.MmddCvc>
               <div>
-                <Text size={15}>expiry</Text>
-
                 <Input
                   id="expiry"
                   type="text"
+                  placeholder="Expiry"
                   value={cardValue.expiry}
                   onChange={handleCardInput}
                   isError={cardValueError.expiry}
+                  spanColor={colors.html_background}
                 />
               </div>
               <div>
-                <Text size={15}>cvc</Text>
-
                 <Input
                   id="cvc"
                   type="number"
+                  placeholder="Cvc"
                   value={cardValue.cvc}
                   onChange={handleCardInput}
                   isError={cardValueError.cvc}
+                  spanColor={colors.html_background}
                 />
               </div>
             </S.MmddCvc>

@@ -109,6 +109,7 @@ const ModalCoupon = ({ isModalOpen, setIsModalOpen }: Props) => {
             type="text"
             value={couponInfo.name}
             onChange={handleInput}
+            spanColor={colors.white}
           />
         </div>
         <div>
@@ -126,6 +127,7 @@ const ModalCoupon = ({ isModalOpen, setIsModalOpen }: Props) => {
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ""
             }
             onChange={handleInput}
+            spanColor={colors.white}
           />
         </div>
       </S.NamePrice>
@@ -139,6 +141,7 @@ const ModalCoupon = ({ isModalOpen, setIsModalOpen }: Props) => {
           isSelectOpen={isCategoryOpen}
           setSelectOpen={setIsCategoryOpen}
           defaultOption={couponInfo.category}
+          isError={false}
         />
       </CategoryContainer>
       <Text size={15} marginBottom={15}>

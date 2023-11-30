@@ -21,7 +21,7 @@ const ModalSelect = ({
   setSelectOpen,
 }: ModalProps) => {
   const divStyle = {
-    top: `${top !== undefined && top + 30}px`,
+    top: `${top !== undefined && top + 40}px`,
     left: `${left}px`,
     width: `${width}px`,
   };

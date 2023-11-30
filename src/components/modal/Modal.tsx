@@ -42,7 +42,7 @@ export const InnerModal = styled.div`
   padding: 15px;
   background-color: ${colors.white};
   overflow-y: auto;
-  border-radius: 3px;
+  border-radius: 8px;
   position: relative;
 
   @media only screen and (max-width: 500px) {

@@ -21,9 +21,11 @@ const MyOrderList = () => {
 
   return (
     <S.Container>
-      <Text size={20} bold={700} marginBottom={30}>
-        Order List
-      </Text>
+      <S.Title>
+        <Text size={25} bold={700}>
+          Order List
+        </Text>
+      </S.Title>
 
       {myOrderList?.length ? (
         myOrderList?.map((list) => {
@@ -35,26 +37,36 @@ const MyOrderList = () => {
               <S.Img src={list.items[0].productId.image} />
               <S.InfoStatusFlex>
                 <div>
-                  <Text size={20} bold={700}>
-                    주문번호: {list.orderNum}
+                  <Text size={18} bold={700}>
+                    주문번호 : {list.orderNum}
                   </Text>
-                  <Text marginBottom={15} size={14}>
+                  <Text size={13} marginBottom={15}>
                     {formatDate(list.createdAt)}
                   </Text>
 
                   {list.items.length > 1 ? (
-                    <Text size={16} bold={400}>
+                    <Text size={13} bold={700}>
                       {list.items[0].productId.name} 외
                       {String(list.items.length - 1)} 건
                     </Text>
                   ) : (
-                    <Text size={16} bold={400}>
+                    <Text size={14} bold={700}>
                       {list.items[0].productId.name}
                     </Text>
                   )}
                   <Text size={13}>
-                    ₩ {String(list.totalPrice.toLocaleString())}
+                    {String(list.totalPrice.toLocaleString())} 원
                   </Text>
+                  <S.MoBilePrice>
+                    <Button
+                      paddingSide="15"
+                      borderRadius="5"
+                      background={colors[statusKey]}
+                      Fontcolor="#5c4e46"
+                    >
+                      {list.status}
+                    </Button>
+                  </S.MoBilePrice>
                 </div>
 
                 <S.Status>
@@ -73,7 +85,9 @@ const MyOrderList = () => {
         })
       ) : (
         <S.NotFound>
-          <Text>주문목록이 존재하지 않습니다.</Text>
+          <Text size={13} bold={700}>
+            주문목록이 존재하지 않습니다.
+          </Text>
         </S.NotFound>
       )}
     </S.Container>

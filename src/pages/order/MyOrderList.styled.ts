@@ -6,7 +6,14 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding-top: 50px;
+`;
+
+export const Title = styled.div`
+  margin: 30px 0;
+  margin-bottom: 50px;
+  text-align: center;
+  font-size: 25px;
+  font-family: "Patrick Hand", "Noto Sans KR";
 `;
 
 export const OrderListItem = styled.div`
@@ -46,6 +53,20 @@ export const Status = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (max-width: 500px) {
+    & > button {
+      display: none;
+    }
+  }
+`;
+export const MoBilePrice = styled.div`
+  display: none;
+  margin-top: 10px;
+
+  @media only screen and (max-width: 500px) {
+    display: block;
+  }
 `;
 
 export const NotFound = styled.div`

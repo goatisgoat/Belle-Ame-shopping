@@ -31,18 +31,19 @@ const UploadWidget = ({ handleImg, imgError }: Props) => {
   }, []);
   return (
     <>
-      <S.Flex>
-        <Text color={colors.gray_300}>Img</Text>
-        {imgError ? (
-          <ErrorOutlineIcon fontSize="small" style={{ color: "#f86c6c" }} />
-        ) : null}
-      </S.Flex>
+      <Text
+        size={15}
+        color={imgError ? "#f86c6c" : colors.gray_300}
+        marginRight={10}
+      >
+        Img
+      </Text>
       <Button
         Fontcolor={colors.basicWithBrown}
-        background={colors.basic}
-        borderRadius="3"
-        paddingTop="8"
-        paddingSide="10"
+        background={colors.antiquewhite}
+        borderRadius="20"
+        paddingTop="10"
+        paddingSide="15"
         onClick={() => widgetRef.current?.open()}
       >
         Upload
