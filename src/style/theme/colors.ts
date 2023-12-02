@@ -37,6 +37,7 @@ export const colors = {
   adminDelete: "#ff7070a1",
 
   beige_100: "#FFF8EA",
+  beige_900: "#a57f7f78",
 
   purple_100: "#db9cffa8",
   purple_200: "#db9cff",

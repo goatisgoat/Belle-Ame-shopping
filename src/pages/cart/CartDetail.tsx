@@ -88,7 +88,7 @@ const CartDetail = () => {
               <S.Flex>
                 <S.ProductImg src={c.productId.image} />
                 <S.NameSizeColumn>
-                  <Text size={18} bold={600}>
+                  <Text size={15} bold={500}>
                     {c.productId.name}
                   </Text>
                   <Text size={13}>Size: {c.size}</Text>

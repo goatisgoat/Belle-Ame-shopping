@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import {
+  SeparateLineImg,
   autoInfinitSlideObj,
   girdA,
   girdB,
@@ -109,7 +110,22 @@ const Home = () => {
         </Slider>
       </S.BestItemsContainer>
 
-      <SeparateLine></SeparateLine>
+      <S.SeparateLine>
+        <S.SeparateLineDiv>
+          <div>
+            <Text size={12} color={colors.gray_900} marginBottom={5}>
+              #레츠고
+            </Text>
+            <Text size={15} bold={600} color={colors.white}>
+              첫 구매 시 10% 할인!
+            </Text>
+          </div>
+          <S.SeparateLineImgDiv>
+            <img src={SeparateLineImg} />
+          </S.SeparateLineImgDiv>
+        </S.SeparateLineDiv>
+      </S.SeparateLine>
+
       <S.GridContainer>
         <S.GirdA>
           <img src={girdA} />
@@ -176,17 +192,3 @@ const Home = () => {
 };
 
 export default Home;
-
-export const SeparateLine = styled.div`
-  width: 100%;
-  height: 1.5px;
-  margin-bottom: 180px;
-  background-color: #2f272332;
-`;
-
-export const DDDD = styled.div`
-  max-width: 1200px;
-  height: 100%;
-  margin: 0 auto;
-  background-color: #2f2723;
-`;

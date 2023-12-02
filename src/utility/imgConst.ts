@@ -85,3 +85,7 @@ export const girdC =
   "https://firebasestorage.googleapis.com/v0/b/belle-ame-405005.appspot.com/o/Frame%201171275406.png?alt=media&token=5c44285c-b080-4c0b-a90c-9b4776df5bf4";
 export const girdD =
   "https://firebasestorage.googleapis.com/v0/b/belle-ame-405005.appspot.com/o/Frame%201171275404.png?alt=media&token=22521445-44c3-474b-a66f-6806e779e43b";
+
+//saperateCoupon
+export const SeparateLineImg =
+  "https://firebasestorage.googleapis.com/v0/b/belle-ame-405005.appspot.com/o/coupon%20(2).png?alt=media&token=219702d5-5753-4afe-9bc6-5ada9f30d2e4";
