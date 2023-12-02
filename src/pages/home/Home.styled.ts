@@ -167,7 +167,7 @@ export const AutoInfinitSlide = styled.div`
     animation-play-state: paused;
   }
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 600px) {
     display: none;
   }
 `;
@@ -263,6 +263,52 @@ export const GirdD = styled.div`
 
   @media only screen and (max-width: 800px) {
     display: none;
+  }
+`;
+
+//
+
+export const SeparateLine = styled.div`
+  width: 100%;
+  height: 100px;
+  margin-right: 20px;
+  margin-bottom: 180px;
+  background-color: #2f2723;
+
+  @media only screen and (max-width: 1200px) {
+    background-color: transparent;
+  }
+`;
+
+export const SeparateLineDiv = styled.div`
+  max-width: 1200px;
+  height: 100%;
+  padding: 20px 40px;
+  margin: 0 auto;
+  background-color: #2f2723;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media only screen and (max-width: 1200px) {
+    margin: 0 7px;
+  }
+`;
+
+export const SeparateLineImgDiv = styled.div`
+  display: flex;
+  align-items: center;
+  & > img {
+    width: 150px;
+    object-fit: cover;
+  }
+
+  @media only screen and (max-width: 430px) {
+    & > img {
+      width: 80px;
+    }
   }
 `;
 

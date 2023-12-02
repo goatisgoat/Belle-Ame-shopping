@@ -92,11 +92,12 @@ const AdminProduct = () => {
   };
 
   //삭제
-  const handleDeleteProduct = (row: Product) => {
+  const handleDeleteProduct = async (row: Product) => {
     const confirmResult = window.confirm("삭제하시겠습니까?");
 
     if (confirmResult) {
-      dispatch(deleteProduct({ deleteProductId: row._id, navigate }));
+      await dispatch(deleteProduct({ deleteProductId: row._id, navigate }));
+      return dispatch(getProductAdmin({ ...searchQuery }));
     }
   };
 
